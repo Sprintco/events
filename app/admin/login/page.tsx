@@ -1,5 +1,6 @@
 "use client";
 
+import { PasswordInput } from "@/components/password-input";
 import { useActionState } from "react";
 import Link from "next/link";
 import { login } from "../actions";
@@ -14,7 +15,7 @@ export default function LoginPage() {
       <h1 className="text-2xl font-bold">Admin sign in</h1>
       <form action={action} className="mt-6 space-y-3 rounded-2xl border bg-card p-6">
         <input name="email" type="email" placeholder="Email" required className={input} />
-        <input name="password" type="password" placeholder="Password" required className={input} />
+        <PasswordInput name="password" placeholder="Password" required />
         {state.error && <p className="text-sm text-destructive">{state.error}</p>}
         <button
           disabled={pending}

@@ -33,8 +33,7 @@ export async function changePassword(_prev: AccountState, form: FormData): Promi
   const sql = await db();
   await sql`update admins set password_hash = ${hash}, must_change = false where id = ${me.id}`;
   await startAdminSession({ id: me.id, password_hash: hash }); // the old session is no longer valid
-  revalidatePath("/admin/account");
-  return { ok: true };
+  redirect("/admin"); // already signed in: straight to the dashboard
 }
 
 export async function regenerateCodes(_prev: AccountState): Promise<AccountState> {
@@ -64,6 +63,8 @@ export async function resetWithRecoveryCode(_prev: AccountState, form: FormData)
     return { error: "That email and recovery code do not match." };
   }
   await clearFailures(key);
-  await sql`update admins set password_hash = ${hashPassword(next)}, must_change = false where id = ${a.id}`;
-  return { ok: true };
+  const hash = hashPassword(next);
+  await sql`update admins set password_hash = ${hash}, must_change = false where id = ${a.id}`;
+  await startAdminSession({ id: a.id, password_hash: hash }); // proved identity with the code, so sign them in
+  redirect("/admin");
 }

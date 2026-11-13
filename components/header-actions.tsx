@@ -64,7 +64,7 @@ function CrownMenu() {
 
 type Notice = { id: string; title: string; body: string; href?: string };
 
-type Conv = { id: string; name: string; closed_at: string | null; last_body: string | null; last_sender: string | null };
+type Conv = { id: string; name: string; closed_at: string | null; last_body: string | null; last_sender: string | null; assigned_admin_id?: number | null; mine?: boolean | null };
 
 function Notifications({ admin }: { admin: boolean }) {
   const [chat, setChat] = useState<ChatUnread>({ count: 0, latest: "" });
@@ -114,7 +114,8 @@ function Notifications({ admin }: { admin: boolean }) {
             href: "/admin/chat",
           })),
       );
-      const open = convs.filter((c) => !c.closed_at && c.last_sender === "visitor");
+      // Only chats I can answer: new ones nobody has taken yet, and my own.
+      const open = convs.filter((c) => !c.closed_at && c.last_sender === "visitor" && (c.assigned_admin_id == null || c.mine));
 
       // Chime when a NEW visitor message arrives (works on any admin page).
       const newest = Math.max(0, ...open.map((c) => (c.last_at ? Date.parse(c.last_at) : 0)));

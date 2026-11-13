@@ -15,6 +15,9 @@ type Conv = {
   last_body: string | null;
   last_sender: string | null;
   last_at: string | null;
+  assigned_admin_id: number | null;
+  assigned_name: string | null;
+  mine: boolean | null;
 };
 type Msg = { id: number; sender: "visitor" | "admin"; body: string; read_at: string | null };
 type Visitor = { id: string; path: string; name: string | null; page_title?: string | null };
@@ -148,7 +151,7 @@ export function Inbox() {
                       {c.closed_at ? (
                         <span className="shrink-0 rounded-full bg-secondary px-2 py-0.5 text-[11px] font-medium text-muted-foreground">Closed</span>
                       ) : needsReply ? (
-                        <span className="shrink-0 rounded-full bg-accent px-2 py-0.5 text-[11px] font-bold text-accent-foreground">Reply</span>
+                        <span className="shrink-0 rounded-full bg-accent px-2 py-0.5 text-[11px] font-bold text-accent-foreground">{c.assigned_admin_id === null ? "New" : "Reply"}</span>
                       ) : null}
                     </span>
                   </span>

@@ -82,6 +82,8 @@ async function Dashboard() {
   if (!me) redirect("/admin/login");
   if (me.must_change) redirect("/admin/account");
   const sql = await db();
+  // Chats I can see: nobody has taken them yet, or they are mine.
+  const myId = me.id;
 
   const [events, viewRows, perDay, chat, recentChats, online] = await Promise.all([
     sql<EventRow[]>`select * from events order by starts_at`,
@@ -95,12 +97,13 @@ async function Dashboard() {
       select
         count(*) filter (where (select sender from chat_messages m where m.conversation_id = c.id order by id desc limit 1) = 'visitor')::int as waiting,
         count(*)::int as open
-      from chat_conversations c where c.closed_at is null`,
+      from chat_conversations c where c.closed_at is null and (c.assigned_admin_id is null or c.assigned_admin_id = ${myId})`,
     sql<{ id: string; name: string; body: string | null; sender: string | null; at: string | null }[]>`
       select c.id, c.name, m.body, m.sender, m.created_at as at
       from chat_conversations c
       left join lateral (select body, sender, created_at from chat_messages where conversation_id = c.id order by id desc limit 1) m on true
-      where c.closed_at is null and m.body is not null order by m.created_at desc limit 5`,
+      where c.closed_at is null and m.body is not null and (c.assigned_admin_id is null or c.assigned_admin_id = ${myId})
+      order by m.created_at desc limit 5`,
     sql<{ n: number }[]>`select count(*)::int as n from visitors where last_seen > now() - interval '45 seconds'`,
   ]);
 

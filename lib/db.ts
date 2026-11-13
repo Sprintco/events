@@ -3,7 +3,7 @@ import { neon } from "@neondatabase/serverless";
 type Row = Record<string, unknown>;
 type Sql = <T = Row[]>(strings: TemplateStringsArray, ...values: unknown[]) => Promise<T>;
 
-const globalForDb = globalThis as unknown as { neonSql?: Sql; schemaV10?: Promise<void> };
+const globalForDb = globalThis as unknown as { neonSql?: Sql; schemaV11?: Promise<void> };
 
 function client(): Sql {
   if (!process.env.DATABASE_URL) {
@@ -18,7 +18,7 @@ function client(): Sql {
 /** Returns the sql client after making sure tables exist (runs once per process). */
 export async function db() {
   const sql = client();
-  globalForDb.schemaV10 ??= (async () => {
+  globalForDb.schemaV11 ??= (async () => {
     await sql`create table if not exists events (
       id serial primary key,
       slug text unique not null,
@@ -94,11 +94,13 @@ export async function db() {
       created_at timestamptz not null default now()
     )`;
     await sql`create index if not exists admin_attempts_key on admin_attempts (key, created_at)`;
+    // Who is handling a chat. Null means nobody yet: any admin can pick it up by replying.
+    await sql`alter table chat_conversations add column if not exists assigned_admin_id int references admins(id) on delete set null`;
   })().catch((e) => {
-    globalForDb.schemaV10 = undefined;
+    globalForDb.schemaV11 = undefined;
     throw e;
   });
-  await globalForDb.schemaV10;
+  await globalForDb.schemaV11;
   return sql;
 }
 
