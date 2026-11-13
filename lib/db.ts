@@ -3,7 +3,7 @@ import { neon } from "@neondatabase/serverless";
 type Row = Record<string, unknown>;
 type Sql = <T = Row[]>(strings: TemplateStringsArray, ...values: unknown[]) => Promise<T>;
 
-const globalForDb = globalThis as unknown as { neonSql?: Sql; schemaV8?: Promise<void> };
+const globalForDb = globalThis as unknown as { neonSql?: Sql; schemaV9?: Promise<void> };
 
 function client(): Sql {
   if (!process.env.DATABASE_URL) {
@@ -18,7 +18,7 @@ function client(): Sql {
 /** Returns the sql client after making sure tables exist (runs once per process). */
 export async function db() {
   const sql = client();
-  globalForDb.schemaV8 ??= (async () => {
+  globalForDb.schemaV9 ??= (async () => {
     await sql`create table if not exists events (
       id serial primary key,
       slug text unique not null,
@@ -64,11 +64,17 @@ export async function db() {
       path text not null default '/',
       conversation_id uuid
     )`;
+    await sql`create table if not exists event_views (
+      id bigserial primary key,
+      event_id int not null references events(id) on delete cascade,
+      created_at timestamptz not null default now()
+    )`;
+    await sql`create index if not exists event_views_recent on event_views (created_at, event_id)`;
   })().catch((e) => {
-    globalForDb.schemaV8 = undefined;
+    globalForDb.schemaV9 = undefined;
     throw e;
   });
-  await globalForDb.schemaV8;
+  await globalForDb.schemaV9;
   return sql;
 }
 

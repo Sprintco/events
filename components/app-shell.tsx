@@ -7,16 +7,15 @@ import {
   Crown,
   Home,
   Heart,
-  Mail,
-  Users,
-  Video,
+  Utensils,
+  CalendarCheck,
   Menu,
   X,
 } from "lucide-react";
 import { NavMenus } from "./nav-menu";
 import { NavLink } from "./nav-link";
 import { ThemeSwitcher } from "./theme-switcher";
-import { OpenChatItem, SideLink, SideStatic } from "./side-item";
+import { OpenChatItem, SideLink } from "./side-item";
 
 const get = (k: string) => {
   try {
@@ -54,7 +53,7 @@ function PromoBanner() {
   return (
     <div className="relative bg-gradient-to-r from-[#f7aa14] to-[#fbc95a] text-[#1e120f]">
       <Link
-        href="/events"
+        href="/private-events"
         className="mx-auto flex max-w-6xl items-center justify-center gap-2 px-12 py-3 text-sm font-bold sm:text-base">
         <Crown className="size-4 shrink-0" />
         <span className="truncate">Join our exclusive private events</span>
@@ -131,15 +130,26 @@ export function AppShell({
           className={`hidden ${sideOpen ? "lg:flex" : "lg:hidden"} w-72 flex-col gap-1 overflow-y-auto border-r bg-sidebar p-4 text-sidebar-foreground lg:sticky lg:top-16 lg:h-[calc(100vh-4rem)] lg:shrink-0`}>
           <SideLink href="/" icon="home" label="Home" />
           <SideLink href="/events" icon="events" label="Events" />
+          <SideLink
+            href="/private-events"
+            icon="private"
+            label="Private events"
+          />
+          <SideLink href="/menu" icon="menu" label="Menu" />
+          <SideLink href="/pricing" icon="pricing" label="Pricing" />
           <OpenChatItem />
-          <SideStatic icon="viewed" label="Viewed me" />
-          <SideStatic icon="connections" label="Connections" />
-          <SideStatic icon="groups" label="Groups" />
-          <SideStatic icon="games" label="Games" />
-          <SideStatic icon="favorites" label="My favorites" />
-          <SideStatic icon="history" label="History" />
           <div className="my-2 border-t border-sidebar-border" />
-          <SideStatic icon="friends" label="Friends" />
+          <SideLink
+            href="/events?filter=trending"
+            icon="trending"
+            label="Trending"
+          />
+          <SideLink href="/events?filter=week" icon="week" label="This week" />
+          <SideLink
+            href="/events?filter=free"
+            icon="free"
+            label="Free events"
+          />
           {adminSide}
 
           <div className="mt-auto rounded-2xl border bg-card p-4">
@@ -147,7 +157,7 @@ export function AppShell({
             <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
               <li>• Browse exclusive gatherings</li>
               <li>• See price and details first</li>
-              <li>• Register in seconds</li>
+              <li>• Reserve in the chat</li>
             </ul>
             <Link
               href="/events"
@@ -164,26 +174,22 @@ export function AppShell({
       <div className="pb-16 lg:pb-0">{footer}</div>
 
       <nav
-        className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-5 border-t bg-card lg:hidden"
+        className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-4 border-t bg-card lg:hidden"
         aria-label="Primary">
         <NavLink href="/events" className={tab}>
           <Heart className="size-6" />
           Browse
         </NavLink>
+        <NavLink href="/menu" className={tab}>
+          <Utensils className="size-6" />
+          Menu
+        </NavLink>
         <button
           onClick={() => window.dispatchEvent(new Event("open-support-chat"))}
           className={tab(false)}>
-          <Mail className="size-6" />
-          Messages
+          <CalendarCheck className="size-6" />
+          Reservation
         </button>
-        <Link href="/events" className={tab(false)}>
-          <Video className="size-6" />
-          Live
-        </Link>
-        <Link href="/events" className={tab(false)}>
-          <Users className="size-6" />
-          Community
-        </Link>
         <NavLink href="/" className={tab}>
           <Home className="size-6" />
           Home

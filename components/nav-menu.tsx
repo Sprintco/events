@@ -4,43 +4,43 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { NAV_ART } from "./nav-art";
 import {
-  CalendarDays, Compass, Gift, Lock, Sparkles, Ticket, Users, Flame, MapPin, CalendarClock, Wallet,
+  CalendarDays, Gift, Lock, Sparkles, Ticket, CalendarCheck, Flame, MapPin, CalendarClock, Wallet, Utensils,
 } from "lucide-react";
 
-type Item = { icon: React.ComponentType<{ className?: string }>; title: string; desc: string };
 type Menu = { label: string; items: Item[] };
 
-// Every item goes to the events page for now.
+type Item = { href?: string; chat?: boolean; icon: React.ComponentType<{ className?: string }>; title: string; desc: string };
 const MENUS: Menu[] = [
   {
     label: "Browse",
     items: [
-      { icon: CalendarDays, title: "All events", desc: "Everything coming up" },
-      { icon: Lock, title: "Private events", desc: "Invite-only gatherings" },
-      { icon: Gift, title: "Free events", desc: "No ticket needed" },
+      { href: "/events", icon: CalendarDays, title: "All events", desc: "Everything coming up" },
+      { href: "/private-events", icon: Lock, title: "Private events", desc: "Invite-only gatherings" },
+      { href: "/events?filter=free", icon: Gift, title: "Free events", desc: "No ticket needed" },
     ],
   },
   {
     label: "Discover",
     items: [
-      { icon: Flame, title: "Trending", desc: "What everyone is joining" },
-      { icon: CalendarClock, title: "This week", desc: "Plan your week ahead" },
-      { icon: MapPin, title: "Near you", desc: "Events around your city" },
-      { icon: Sparkles, title: "New", desc: "Just added by the host" },
+      { href: "/events?filter=trending", icon: Flame, title: "Trending", desc: "What everyone is joining" },
+      { href: "/events?filter=week", icon: CalendarClock, title: "This week", desc: "Plan your week ahead" },
+      { href: "/events?filter=near", icon: MapPin, title: "Near you", desc: "Events around your city" },
+      { href: "/events?filter=new", icon: Sparkles, title: "New", desc: "Just added by the host" },
     ],
   },
   {
     label: "Tickets",
     items: [
-      { icon: Ticket, title: "Register", desc: "Reserve your spot" },
-      { icon: Wallet, title: "Pricing", desc: "See what each event costs" },
+      { href: "/pricing", icon: Wallet, title: "Pricing", desc: "See what each event costs" },
+      { href: "/menu", icon: Utensils, title: "Menu", desc: "Dinner and drinks" },
     ],
   },
   {
-    label: "Community",
+    label: "Reservation",
     items: [
-      { icon: Users, title: "Meet-ups", desc: "Social gatherings" },
-      { icon: Compass, title: "Explore", desc: "Find something new" },
+      { chat: true, icon: CalendarCheck, title: "Reserve a table", desc: "Chat with our team" },
+      { href: "/private-events", icon: Lock, title: "Private events", desc: "Book the venue" },
+      { href: "/menu", icon: Utensils, title: "View the menu", desc: "Before you book" },
     ],
   },
 ];
@@ -92,23 +92,36 @@ function Dropdown({ menu }: { menu: Menu }) {
       {open && (
         <div className="absolute left-1/2 top-full z-50 w-72 -translate-x-1/2 pt-2 animate-in fade-in slide-in-from-top-1 duration-150">
           <div role="menu" className="rounded-2xl border bg-card p-2 shadow-xl">
-            {menu.items.map(({ icon: Icon, title, desc }) => (
-              <Link
-                key={title}
-                href="/events"
-                role="menuitem"
-                onClick={() => setOpen(false)}
-                className="flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-secondary"
-              >
-                <span className="grid size-10 shrink-0 place-items-center rounded-full bg-secondary text-muted-foreground">
-                  <Icon className="size-5" />
-                </span>
-                <span>
-                  <span className="block text-sm font-semibold">{title}</span>
-                  <span className="block text-xs text-muted-foreground">{desc}</span>
-                </span>
-              </Link>
-            ))}
+            {menu.items.map(({ icon: Icon, title, desc, href, chat }) => {
+              const body = (
+                <>
+                  <span className="grid size-10 shrink-0 place-items-center rounded-full bg-secondary text-muted-foreground">
+                    <Icon className="size-5" />
+                  </span>
+                  <span className="text-left">
+                    <span className="block text-sm font-semibold">{title}</span>
+                    <span className="block text-xs text-muted-foreground">{desc}</span>
+                  </span>
+                </>
+              );
+              const cls = "flex w-full items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-secondary";
+              return chat ? (
+                <button
+                  key={title}
+                  role="menuitem"
+                  onClick={() => {
+                    setOpen(false);
+                    window.dispatchEvent(new Event("open-support-chat"));
+                  }}
+                  className={cls}>
+                  {body}
+                </button>
+              ) : (
+                <Link key={title} href={href ?? "/events"} role="menuitem" onClick={() => setOpen(false)} className={cls}>
+                  {body}
+                </Link>
+              );
+            })}
           </div>
         </div>
       )}

@@ -1,16 +1,15 @@
 "use client";
 
-import Link from "next/link";
 import {
-  Asterisk,
   CalendarDays,
-  Clock,
-  Eye,
-  Heart,
+  CalendarClock,
+  Flame,
+  Gift,
+  Ticket,
+  Wallet,
+  Lock,
+  Utensils,
   Mail,
-  Pause,
-  Users,
-  UsersRound,
   Home,
   LayoutDashboard,
   LogOut,
@@ -38,13 +37,12 @@ const ICONS: Record<string, React.ComponentType<IconProps>> = {
   dashboard: LayoutDashboard,
   inbox: MessagesSquare,
   messages: Mail,
-  viewed: Eye,
-  connections: Asterisk,
-  groups: UsersRound,
-  games: Pause,
-  favorites: Heart,
-  history: Clock,
-  friends: Users,
+  pricing: Wallet,
+  trending: Flame,
+  week: CalendarClock,
+  free: Gift,
+  private: Lock,
+  menu: Utensils,
 };
 
 export function SideLink({
@@ -64,25 +62,6 @@ export function SideLink({
       </span>
       {label}
     </NavLink>
-  );
-}
-
-/** Plain sidebar entry that goes to /events (never shown as "current page"). */
-export function SideStatic({
-  icon,
-  label,
-}: {
-  icon: keyof typeof ICONS;
-  label: string;
-}) {
-  const Icon = ICONS[icon];
-  return (
-    <Link href="/events" className={cls(false)}>
-      <span className={circle(false)}>
-        <Icon className="size-5" />
-      </span>
-      {label}
-    </Link>
   );
 }
 

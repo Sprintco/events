@@ -4,7 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { CalendarDays, MapPin, Lock, ArrowLeft } from "lucide-react";
 import { db, type EventRow, formatDate, formatPrice } from "@/lib/db";
-import { RegisterForm } from "./register-form";
+import { ViewPing } from "@/components/view-ping";
+import { ReserveButton } from "@/components/reserve-button";
 
 async function EventDetail({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -14,12 +15,13 @@ async function EventDetail({ params }: { params: Promise<{ slug: string }> }) {
 
   return (
     <>
+      <ViewPing eventId={e.id} />
       <Link href="/events" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
         <ArrowLeft className="size-4" /> All events
       </Link>
 
       {e.cover_url && (
-        <div className="relative mt-6 aspect-[16/7] overflow-hidden rounded-2xl bg-secondary">
+        <div className="relative mt-6 aspect-[16/7] overflow-hidden rounded-3xl bg-secondary">
           <Image src={e.cover_url} alt={e.title} fill unoptimized priority sizes="100vw" className="object-cover" />
         </div>
       )}
@@ -36,7 +38,7 @@ async function EventDetail({ params }: { params: Promise<{ slug: string }> }) {
               </span>
             )}
           </div>
-          <h1 className="mt-4 text-3xl font-bold tracking-tight md:text-4xl">{e.title}</h1>
+          <h1 className="mt-4 font-display text-3xl font-bold tracking-tight md:text-5xl">{e.title}</h1>
           <div className="mt-4 space-y-2 text-muted-foreground">
             <p className="flex items-center gap-2"><CalendarDays className="size-4" /> {formatDate(e.starts_at)}</p>
             {e.location && <p className="flex items-center gap-2"><MapPin className="size-4" /> {e.location}</p>}
@@ -46,9 +48,12 @@ async function EventDetail({ params }: { params: Promise<{ slug: string }> }) {
         </div>
 
         <aside className="h-fit rounded-2xl border bg-card p-6 md:sticky md:top-24">
-          <p className="text-sm text-muted-foreground">Price</p>
+          <p className="text-sm text-muted-foreground">Price from</p>
           <p className="text-3xl font-bold">{formatPrice(e.price_usd)}</p>
-          <RegisterForm eventId={e.id} slug={e.slug} price={Number(e.price_usd)} />
+          <p className="mt-3 text-sm text-muted-foreground">
+            Reserve a table or a spot for your group. Our team will confirm it with you in the chat.
+          </p>
+          <ReserveButton className="mt-5 w-full" />
         </aside>
       </div>
     </>

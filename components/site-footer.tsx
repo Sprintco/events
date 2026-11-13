@@ -9,38 +9,38 @@ const L = (label: string, href: string) => ({ label, href });
 
 // Row one has two groups separated by a faint vertical line.
 const ROW_ONE_LEFT = [
-  L("Company", "/"),
-  L("About", "/events"),
-  L("Contact Us", "/events"),
-  L("What's New", "/events"),
-  L("Feedback", "/events"),
-  L("Blog", "/events"),
+  L("Company", "/company"),
+  L("About", "/info/about"),
+  L("Contact Us", "/help"),
+  L("What's New", "/info/whats-new"),
+  L("Feedback", "/info/feedback"),
+  L("Blog", "/info/blog"),
 ];
 const ROW_ONE_RIGHT = [
-  L("Dating Safety", "/events"),
-  L("Protect Kids", "/events"),
-  L("Report Abuse", "/events"),
-  L("Anti-Trafficking", "/events"),
+  L("Dating Safety", "/safety"),
+  L("Protect Kids", "/info/protect-kids"),
+  L("Report Abuse", "/info/report-abuse"),
+  L("Anti-Trafficking", "/info/anti-trafficking"),
 ];
 const ROW_TWO = [
-  L("Privacy", "/events"),
-  L("Cookies", "/events"),
-  L("Terms", "/events"),
-  L("18 U.S.C. 2257", "/events"),
-  L("Do Not Sell My Info", "/events"),
-  L("Accessibility", "/events"),
-  L("Consent & Content Policy", "/events"),
+  L("Privacy", "/info/privacy"),
+  L("Cookies", "/info/cookies"),
+  L("Terms", "/info/terms"),
+  L("18 U.S.C. 2257", "/info/2257"),
+  L("Do Not Sell My Info", "/info/do-not-sell"),
+  L("Accessibility", "/info/accessibility"),
+  L("Consent & Content Policy", "/info/consent-policy"),
 ];
 const ROW_THREE = [
-  L("Complaints, Abuse Reporting & Content Removal Policy", "/events"),
-  L("Take It Down Act Notice", "/events"),
+  L("Complaints, Abuse Reporting & Content Removal Policy", "/info/complaints"),
+  L("Take It Down Act Notice", "/info/take-it-down"),
 ];
 
 const GROUPS = [
-  L("Company", "/events"),
-  L("Safety", "/events"),
-  L("Legal", "/events"),
-  L("Help", "/events"),
+  L("Company", "/company"),
+  L("Safety", "/safety"),
+  L("Legal", "/legal"),
+  L("Help", "/help"),
 ];
 
 const link = "text-muted-foreground transition-colors hover:text-black";
@@ -281,7 +281,7 @@ export function SiteFooter() {
           <br className="md:hidden" /> rights reserved. AdultFriendFinder®
           <span className="mx-2 hidden md:inline">·</span>
           <Link
-            href="/events"
+            href="/legal"
             className="hidden underline underline-offset-2 hover:text-black md:inline">
             Legal
           </Link>

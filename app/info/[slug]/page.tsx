@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { INFO_PAGES } from "@/lib/info-pages";
 
@@ -12,11 +13,16 @@ async function Content({ params }: { params: Promise<{ slug: string }> }) {
   if (!page) notFound();
   return (
     <>
-      <h1 className="text-3xl font-bold">{page.title}</h1>
+      <Link
+        href="/"
+        className="text-sm text-muted-foreground hover:text-foreground">
+        ← Back
+      </Link>
+      <h1 className="mt-6 text-3xl font-bold">{page.title}</h1>
       <p className="mt-4 leading-7 text-muted-foreground">{page.body}</p>
-      <p className="mt-8 rounded-xl border border-dashed p-4 text-sm text-muted-foreground">
+      {/* <p className="mt-8 rounded-xl border border-dashed p-4 text-sm text-muted-foreground">
         Placeholder text. Replace with your final copy before launch.
-      </p>
+      </p> */}
     </>
   );
 }

@@ -44,7 +44,7 @@ function CrownMenu() {
             <p className="text-lg font-bold">Private events</p>
           </div>
           <p className="mt-3 text-sm text-muted-foreground">
-            Unlock exclusive gatherings and register before they fill up.
+            Unlock exclusive gatherings and reserve before they fill up.
           </p>
           <Link
             href="/events"

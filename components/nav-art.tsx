@@ -54,7 +54,7 @@ function TicketArt() {
   );
 }
 
-/** Community: a little network of nodes drifting around. */
+/** Reservation: a little network of nodes drifting around. */
 function NetworkArt() {
   const nodes = [
     { x: 14, y: 12, d: 0 },
@@ -81,5 +81,5 @@ export const NAV_ART: Record<string, () => React.JSX.Element> = {
   Browse: GridArt,
   Discover: CardArt,
   Tickets: TicketArt,
-  Community: NetworkArt,
+  Reservation: NetworkArt,
 };
