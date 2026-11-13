@@ -10,6 +10,7 @@ import { Popover } from "./popover";
 import { logout } from "@/app/admin/actions";
 import { getChatUnread, type ChatUnread } from "@/lib/chat-events";
 import { isSoundOn, playChime, setSoundOn, unlockAudio } from "@/lib/sound";
+import { pageName } from "@/lib/page-name";
 import {
   TEXT_SIZES, THEMES, applyTextSize, applyTheme, readAppearance, type TextSizeId, type ThemeId,
 } from "@/lib/theme";
@@ -94,7 +95,7 @@ function Notifications({ admin }: { admin: boolean }) {
       if (!r?.ok) return;
       const data = await r.json();
       const convs: (Conv & { last_at: string | null })[] = data.conversations ?? [];
-      const visitors: { id: string; path: string; arrived_at: string; name: string | null }[] = data.visitors ?? [];
+      const visitors: { id: string; path: string; arrived_at: string; name: string | null; page_title?: string | null }[] = data.visitors ?? [];
 
       // Someone just landed on the site: chime once, and list them for a couple of minutes.
       const newestArrival = Math.max(0, ...visitors.map((v) => Date.parse(v.arrived_at)));
@@ -109,7 +110,7 @@ function Notifications({ admin }: { admin: boolean }) {
           .map((v) => ({
             id: `visit-${v.id}`,
             title: `${v.name ?? "A visitor"} is on the site`,
-            body: `Viewing ${v.path}`,
+            body: `Viewing ${pageName(v.path, v.page_title)}`,
             href: "/admin/chat",
           })),
       );

@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import Link from "next/link";
 import { login } from "../actions";
 
 const input =
@@ -22,6 +23,9 @@ export default function LoginPage() {
           {pending ? "Signing in…" : "Sign in"}
         </button>
       </form>
+      <Link href="/admin/forgot-password" className="mt-4 text-center text-sm text-muted-foreground hover:text-foreground">
+        Forgot your password?
+      </Link>
     </main>
   );
 }

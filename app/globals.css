@@ -290,3 +290,6 @@ html[data-text="xl"] { font-size: 20px; }
     scrollbar-color: color-mix(in oklab, var(--foreground) 50%, transparent) transparent;
   }
 }
+
+/* Desktop sidebar hidden by the saved choice (set before paint from the <head> script). */
+html[data-sidebar="closed"] .app-sidebar { display: none !important; }

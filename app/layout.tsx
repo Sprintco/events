@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 };
 
 // Applies the saved theme before first paint so there's no flash.
-const themeScript = `(function(){try{var t=localStorage.getItem('theme');if(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches)t='dark';if(t)document.documentElement.dataset.theme=t;var s=localStorage.getItem('text-size');if(s)document.documentElement.dataset.text=s}catch(e){}})();`;
+const themeScript = `(function(){try{var t=localStorage.getItem('theme');if(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches)t='dark';if(t)document.documentElement.dataset.theme=t;if(localStorage.getItem('sidebar')==='closed')document.documentElement.dataset.sidebar='closed';var s=localStorage.getItem('text-size');if(s)document.documentElement.dataset.text=s}catch(e){}})();`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (

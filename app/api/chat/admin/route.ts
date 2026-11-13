@@ -38,7 +38,8 @@ export async function GET(req: Request) {
     order by (c.closed_at is not null), last_at desc nulls last`;
   // Everyone browsing the site right now (a heartbeat in the last 45 seconds).
   const visitors = await sql`
-    select v.id, v.path, v.arrived_at, c.name
+    select v.id, v.path, v.arrived_at, c.name,
+      (select e.title from events e where '/events/' || e.slug = v.path) as page_title
     from visitors v left join chat_conversations c on c.id = v.conversation_id
     where v.last_seen > now() - interval '45 seconds'
     order by v.arrived_at desc`;

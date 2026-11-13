@@ -86,18 +86,13 @@ export function AppShell({
   adminTop: React.ReactNode;
   adminSide: React.ReactNode;
 }) {
-  const [sideOpen, setSideOpen] = useState(true); // desktop only: sidebar visible
-
-  useEffect(() => {
-    queueMicrotask(() => {
-      if (get("sidebar") === "closed") setSideOpen(false);
-    });
-  }, []);
-
+  // The saved choice is applied before first paint by a script in <head> (data-sidebar on <html>),
+  // so the sidebar never flashes open and then closes. Toggling just flips that attribute.
   function toggle() {
-    const next = !sideOpen;
-    setSideOpen(next);
-    set("sidebar", next ? "open" : "closed");
+    const el = document.documentElement;
+    const next = el.dataset.sidebar === "closed" ? "open" : "closed";
+    el.dataset.sidebar = next;
+    set("sidebar", next);
   }
 
   return (
@@ -127,7 +122,7 @@ export function AppShell({
 
       <div className="flex flex-1">
         <aside
-          className={`hidden ${sideOpen ? "lg:flex" : "lg:hidden"} w-72 flex-col gap-1 overflow-y-auto border-r bg-sidebar p-4 text-sidebar-foreground lg:sticky lg:top-16 lg:h-[calc(100vh-4rem)] lg:shrink-0`}>
+          className={`app-sidebar hidden lg:flex w-72 flex-col gap-1 overflow-y-auto border-r bg-sidebar p-4 text-sidebar-foreground lg:sticky lg:top-16 lg:h-[calc(100vh-4rem)] lg:shrink-0`}>
           <SideLink href="/" icon="home" label="Home" />
           <SideLink href="/events" icon="events" label="Events" />
           <SideLink

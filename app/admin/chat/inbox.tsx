@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowLeft } from "lucide-react";
+import { pageName } from "@/lib/page-name";
 import { useStickToBottom } from "@/lib/use-stick-to-bottom";
 
 type Conv = {
@@ -16,7 +17,7 @@ type Conv = {
   last_at: string | null;
 };
 type Msg = { id: number; sender: "visitor" | "admin"; body: string; read_at: string | null };
-type Visitor = { id: string; path: string; name: string | null };
+type Visitor = { id: string; path: string; name: string | null; page_title?: string | null };
 
 const clock = (iso: string) =>
   new Date(iso).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
@@ -118,7 +119,7 @@ export function Inbox() {
         )}
         {visitors.map((v) => (
           <span key={v.id} className="shrink-0 rounded-full bg-secondary px-3 py-1.5 text-xs text-muted-foreground">
-            <span className="font-semibold text-foreground">{v.name ?? "Visitor"}</span> · {v.path}
+            <span className="font-semibold text-foreground">{v.name ?? "Visitor"}</span> · {pageName(v.path, v.page_title)}
           </span>
         ))}
       </div>

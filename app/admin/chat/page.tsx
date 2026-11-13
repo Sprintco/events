@@ -1,11 +1,13 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { isAdmin } from "@/lib/auth";
+import { currentAdmin } from "@/lib/auth";
 import { Inbox } from "./inbox";
 
 async function ChatGate() {
-  if (!(await isAdmin())) redirect("/admin/login");
+  const me = await currentAdmin();
+  if (!me) redirect("/admin/login");
+  if (me.must_change) redirect("/admin/account");
   return (
     <main className="px-4 sm:px-6 py-10">
       <Link href="/admin" className="text-sm text-muted-foreground hover:text-foreground">← Dashboard</Link>

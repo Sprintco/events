@@ -3,7 +3,7 @@ import { neon } from "@neondatabase/serverless";
 type Row = Record<string, unknown>;
 type Sql = <T = Row[]>(strings: TemplateStringsArray, ...values: unknown[]) => Promise<T>;
 
-const globalForDb = globalThis as unknown as { neonSql?: Sql; schemaV9?: Promise<void> };
+const globalForDb = globalThis as unknown as { neonSql?: Sql; schemaV10?: Promise<void> };
 
 function client(): Sql {
   if (!process.env.DATABASE_URL) {
@@ -18,7 +18,7 @@ function client(): Sql {
 /** Returns the sql client after making sure tables exist (runs once per process). */
 export async function db() {
   const sql = client();
-  globalForDb.schemaV9 ??= (async () => {
+  globalForDb.schemaV10 ??= (async () => {
     await sql`create table if not exists events (
       id serial primary key,
       slug text unique not null,
@@ -70,11 +70,35 @@ export async function db() {
       created_at timestamptz not null default now()
     )`;
     await sql`create index if not exists event_views_recent on event_views (created_at, event_id)`;
+    await sql`create table if not exists admins (
+      id serial primary key,
+      email text unique not null,
+      name text not null,
+      role text not null default 'admin' check (role in ('super','admin')),
+      password_hash text not null,
+      active boolean not null default true,
+      must_change boolean not null default false,
+      created_at timestamptz not null default now(),
+      last_login_at timestamptz
+    )`;
+    await sql`create table if not exists admin_recovery_codes (
+      id serial primary key,
+      admin_id int not null references admins(id) on delete cascade,
+      code_hash text not null,
+      used_at timestamptz,
+      created_at timestamptz not null default now()
+    )`;
+    await sql`create table if not exists admin_attempts (
+      id bigserial primary key,
+      key text not null,
+      created_at timestamptz not null default now()
+    )`;
+    await sql`create index if not exists admin_attempts_key on admin_attempts (key, created_at)`;
   })().catch((e) => {
-    globalForDb.schemaV9 = undefined;
+    globalForDb.schemaV10 = undefined;
     throw e;
   });
-  await globalForDb.schemaV9;
+  await globalForDb.schemaV10;
   return sql;
 }
 

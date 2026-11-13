@@ -2,15 +2,15 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { checkCredentials, endAdminSession, isAdmin, startAdminSession } from "@/lib/auth";
+import { endAdminSession, isAdmin, signIn, startAdminSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { COVER_KEY, deleteCover } from "@/lib/s3";
 
 export async function login(_prev: { error?: string }, form: FormData) {
-  const ok = checkCredentials(String(form.get("email") ?? ""), String(form.get("password") ?? ""));
-  if (!ok) return { error: "Invalid email or password." };
-  await startAdminSession();
-  redirect("/admin");
+  const r = await signIn(String(form.get("email") ?? ""), String(form.get("password") ?? ""));
+  if (!r.admin) return { error: r.error };
+  await startAdminSession(r.admin);
+  redirect(r.admin.must_change ? "/admin/account" : "/admin");
 }
 
 export async function logout() {
