@@ -1,0 +1,6907 @@
+{
+ "openapi": "3.0.2",
+ "info": {
+  "title": "Smartsupp Open API",
+  "version": "2.7.0",
+  "contact": {
+   "name": "Smartsupp.com",
+   "url": "https://www.smartsupp.com",
+   "email": "sales@smartsupp.com"
+  }
+ },
+ "externalDocs": {
+  "description": "Docs and Guids",
+  "url": "https://docs.smartsupp.com/rest-api/"
+ },
+ "servers": [
+  {
+   "url": "https://api.smartsupp.com/v2"
+  }
+ ],
+ "tags": [],
+ "paths": {
+  "/agents/{id}": {
+   "get": {
+    "operationId": "get",
+    "summary": "Get agent",
+    "security": [
+     {
+      "bearer": [
+       "agents:read"
+      ]
+     }
+    ],
+    "tags": [
+     "agents"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "id",
+      "description": "Agent id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/agent_id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Success response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/agent"
+        },
+        "examples": {
+         "agent": {
+          "$ref": "#/components/examples/agent"
+         }
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "example": {
+         "code": "not_found",
+         "message": "Agent not found"
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    },
+    "x-generator-response-nullable": true
+   },
+   "patch": {
+    "operationId": "update",
+    "summary": "Update agent",
+    "security": [
+     {
+      "bearer": [
+       "agents:manage"
+      ]
+     }
+    ],
+    "tags": [
+     "agents"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "id",
+      "description": "Agent id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/agent_id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "status": {
+          "$ref": "#/components/schemas/agent_status"
+         }
+        }
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Success response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/agent"
+        },
+        "examples": {
+         "agent": {
+          "$ref": "#/components/examples/agent"
+         }
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "example": {
+         "code": "not_found",
+         "message": "Agent not found"
+        }
+       }
+      }
+     },
+     "422": {
+      "$ref": "#/components/responses/err_unprocessable"
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/agents": {
+   "get": {
+    "operationId": "list",
+    "summary": "List agents",
+    "security": [
+     {
+      "bearer": [
+       "agents:read"
+      ]
+     }
+    ],
+    "tags": [
+     "agents"
+    ],
+    "responses": {
+     "200": {
+      "description": "Success response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "agents": {
+           "type": "array",
+           "items": {
+            "$ref": "#/components/schemas/agent"
+           }
+          }
+         },
+         "required": [
+          "agents"
+         ]
+        },
+        "examples": {
+         "agent_list": {
+          "$ref": "#/components/examples/agent_list"
+         }
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/agents/{id}/ping": {
+   "post": {
+    "operationId": "ping",
+    "summary": "Ping agent to stay connected",
+    "security": [
+     {
+      "bearer": [
+       "agents:manage"
+      ]
+     }
+    ],
+    "tags": [
+     "agents"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "id",
+      "description": "Agent id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/agent_id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_ok"
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "example": {
+         "code": "not_found",
+         "message": "Agent not found"
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/bots/{id}/trigger": {
+   "get": {
+    "operationId": "get_trigger",
+    "summary": "Get trigger",
+    "security": [
+     {
+      "bearer": [
+       "bots:read"
+      ]
+     }
+    ],
+    "tags": [
+     "bots"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "id",
+      "description": "Bot id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/bot_id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_trigger"
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "example": {
+         "code": "not_found",
+         "message": "Bot not found"
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    },
+    "x-generator-response-nullable": true
+   }
+  },
+  "/contacts": {
+   "post": {
+    "operationId": "create",
+    "summary": "Create contact",
+    "description": "You can create a new contact",
+    "security": [
+     {
+      "bearer": [
+       "contacts:write"
+      ]
+     }
+    ],
+    "tags": [
+     "contacts"
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "email": {
+          "type": "string",
+          "nullable": true
+         },
+         "identity_id": {
+          "type": "string",
+          "nullable": true
+         },
+         "name": {
+          "type": "string",
+          "nullable": true
+         },
+         "phone": {
+          "type": "string",
+          "nullable": true
+         }
+        }
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_contact"
+     },
+     "422": {
+      "$ref": "#/components/responses/err_unprocessable"
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/contacts/{id}": {
+   "get": {
+    "operationId": "get",
+    "summary": "Get contact",
+    "security": [
+     {
+      "bearer": [
+       "contacts:read"
+      ]
+     }
+    ],
+    "tags": [
+     "contacts"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "id",
+      "description": "Contact id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/contact_id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_contact"
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "example": {
+         "code": "not_found",
+         "message": "Contact not found"
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    },
+    "x-generator-response-nullable": true
+   }
+  },
+  "/contacts/find": {
+   "get": {
+    "operationId": "find",
+    "summary": "Find contact",
+    "security": [
+     {
+      "bearer": [
+       "contacts:read"
+      ]
+     }
+    ],
+    "tags": [
+     "contacts"
+    ],
+    "parameters": [
+     {
+      "in": "query",
+      "name": "email",
+      "description": "Contact email",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_contact"
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "example": {
+         "code": "not_found",
+         "message": "Contact not found"
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    },
+    "x-generator-response-nullable": true
+   }
+  },
+  "/conversations/{id}/assign": {
+   "patch": {
+    "operationId": "assign",
+    "summary": "Assign an agent to conversation",
+    "security": [
+     {
+      "bearer": [
+       "conversations:write"
+      ]
+     }
+    ],
+    "tags": [
+     "conversations"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "id",
+      "description": "Conversation id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/conversation_id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "agent_id": {
+          "description": "The id of the user who is performing the action.",
+          "allOf": [
+           {
+            "$ref": "#/components/schemas/agent_id"
+           }
+          ]
+         },
+         "assignee_id": {
+          "description": "The id of the agent who is assigned.",
+          "allOf": [
+           {
+            "$ref": "#/components/schemas/agent_id"
+           }
+          ]
+         }
+        },
+        "required": [
+         "agent_id",
+         "assignee_id"
+        ]
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_conversation"
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "example": {
+         "code": "not_found",
+         "message": "Conversation not found"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Entity. The data was well-formed but invalid.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "examples": {
+         "agent_not_found": {
+          "summary": "Agent not found",
+          "value": {
+           "code": "agent_not_found",
+           "message": "Agent not found"
+          }
+         },
+         "invalid_request_parameters": {
+          "summary": "Invalid request parameters",
+          "value": {
+           "code": "invalid_parameters",
+           "message": "Invalid request parameters"
+          }
+         }
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/conversations/{id}/unassign": {
+   "patch": {
+    "operationId": "unassign",
+    "summary": "Unassign an agent from conversation",
+    "security": [
+     {
+      "bearer": [
+       "conversations:write"
+      ]
+     }
+    ],
+    "tags": [
+     "conversations"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "id",
+      "description": "Conversation id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/conversation_id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "agent_id": {
+          "description": "The id of the user who is performing the action.",
+          "allOf": [
+           {
+            "$ref": "#/components/schemas/agent_id"
+           }
+          ]
+         },
+         "unassignee_id": {
+          "description": "The id of the agent who is being unassigned.",
+          "allOf": [
+           {
+            "$ref": "#/components/schemas/agent_id"
+           }
+          ]
+         }
+        },
+        "required": [
+         "agent_id",
+         "unassignee_id"
+        ]
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_conversation"
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "example": {
+         "code": "not_found",
+         "message": "Conversation not found"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Entity. The data was well-formed but invalid.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "examples": {
+         "agent_not_found": {
+          "summary": "Agent not found",
+          "value": {
+           "code": "agent_not_found",
+           "message": "Agent not found"
+          }
+         },
+         "invalid_request_parameters": {
+          "summary": "Invalid request parameters",
+          "value": {
+           "code": "invalid_parameters",
+           "message": "Invalid request parameters"
+          }
+         }
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/conversations/{id}/close": {
+   "patch": {
+    "operationId": "close",
+    "summary": "Close conversation",
+    "security": [
+     {
+      "bearer": [
+       "conversations:write"
+      ]
+     }
+    ],
+    "tags": [
+     "conversations"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "id",
+      "description": "Conversation id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/conversation_id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_ok"
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "example": {
+         "code": "not_found",
+         "message": "Conversation not found"
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/conversations": {
+   "post": {
+    "operationId": "create",
+    "summary": "Create conversation",
+    "security": [
+     {
+      "bearer": [
+       "conversations:create"
+      ]
+     }
+    ],
+    "tags": [
+     "conversations"
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "contact_id": {
+          "$ref": "#/components/schemas/contact_id"
+         },
+         "assigned_ids": {
+          "description": "List assigned agents",
+          "type": "array",
+          "items": {
+           "$ref": "#/components/schemas/agent_id"
+          }
+         },
+         "group_id": {
+          "description": "If set than chat will be routed (or visible) only to agents assigned to specific group. Group ID you be retrieved from group's settings.",
+          "anyOf": [
+           {
+            "$ref": "#/components/schemas/group_id"
+           }
+          ],
+          "nullable": true,
+          "example": null
+         },
+         "ext_id": {
+          "description": "You custom id. Can be used to find conversation by your ID.",
+          "type": "string",
+          "nullable": true,
+          "example": null
+         },
+         "variables": {
+          "$ref": "#/components/schemas/variables"
+         },
+         "tags": {
+          "description": "List of tags for this conversation.",
+          "type": "array",
+          "items": {
+           "$ref": "#/components/schemas/tag_id"
+          }
+         },
+         "text": {
+          "description": "Plain text content of the message. If you want import more messages you can use property `messages` (properties `messages` and `html` must not be specified).",
+          "type": "string"
+         },
+         "html": {
+          "description": "HTML content of the message. Only <a> and <br> tags are allowed. Links must use http, https, or mailto schemes. If you want import more messages you can use property `messages` (properties `messages` and `text` must not be specified).",
+          "type": "string"
+         },
+         "messages": {
+          "description": "An array of messages to be imported (properties `text` and `html` must not be specified).",
+          "type": "array",
+          "items": {
+           "type": "object",
+           "additionalProperties": false,
+           "properties": {
+            "sub_type": {
+             "title": "Message SubType",
+             "type": "string",
+             "enum": [
+              "contact",
+              "bot"
+             ]
+            },
+            "content": {
+             "type": "object",
+             "additionalProperties": false,
+             "properties": {
+              "type": {
+               "type": "string",
+               "default": "text",
+               "enum": [
+                "text"
+               ]
+              },
+              "text": {
+               "type": "string",
+               "nullable": true,
+               "description": "Plain text content. Either text or html must be provided."
+              },
+              "html": {
+               "type": "string",
+               "nullable": true,
+               "description": "HTML content. Only <a> and <br> tags are allowed. Links must use http, https, or mailto schemes. Either text or html must be provided."
+              }
+             },
+             "required": [
+              "type"
+             ]
+            },
+            "attachments": {
+             "type": "array",
+             "maxItems": 5,
+             "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+               "type": {
+                "$ref": "#/components/schemas/attachment_type"
+               },
+               "layout": {
+                "type": "string",
+                "enum": [
+                 "carousel"
+                ]
+               },
+               "items": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 10,
+                "items": {
+                 "type": "object",
+                 "additionalProperties": false,
+                 "properties": {
+                  "title": {
+                   "type": "string",
+                   "maxLength": 100
+                  },
+                  "description": {
+                   "type": "string",
+                   "maxLength": 1024
+                  },
+                  "price": {
+                   "type": "string",
+                   "maxLength": 32,
+                   "deprecated": true,
+                   "description": "Deprecated, use originalPrice and salePrice. Pre-formatted price shown by older widgets (e.g., \"\u20ac14.99\"). When omitted, the gateway sets it to salePrice, or originalPrice when there is no salePrice."
+                  },
+                  "originalPrice": {
+                   "type": "string",
+                   "maxLength": 32,
+                   "description": "Pre-formatted regular price (e.g., \"\u20ac99.99\"). Optional, not computed by gateway."
+                  },
+                  "salePrice": {
+                   "type": "string",
+                   "maxLength": 32,
+                   "description": "Pre-formatted discounted price (e.g., \"\u20ac79.99\"), sent only while the discount is valid. Optional, not computed by gateway."
+                  },
+                  "priceDisplay": {
+                   "type": "string",
+                   "enum": [
+                    "currentOnly",
+                    "currentWithOriginal"
+                   ],
+                   "description": "How the widget shows the price. currentWithOriginal shows originalPrice crossed out next to salePrice. Optional, currentOnly when omitted."
+                  },
+                  "image": {
+                   "type": "string"
+                  },
+                  "actions": {
+                   "type": "array",
+                   "minItems": 1,
+                   "maxItems": 1,
+                   "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                     "type": {
+                      "type": "string",
+                      "enum": [
+                       "open_url"
+                      ]
+                     },
+                     "title": {
+                      "type": "string"
+                     },
+                     "value": {
+                      "type": "string",
+                      "format": "uri",
+                      "pattern": "^https?://"
+                     }
+                    },
+                    "required": [
+                     "type",
+                     "title",
+                     "value"
+                    ]
+                   }
+                  }
+                 },
+                 "required": [
+                  "title",
+                  "actions"
+                 ]
+                }
+               },
+               "url": {
+                "type": "string",
+                "description": "Required for types `file` and `image`. Must be an http(s) URL."
+               },
+               "token": {
+                "type": "string",
+                "description": "Required for type `upload`. Token can be retrieved from Upload API."
+               },
+               "file_name": {
+                "type": "string",
+                "description": "If missing then name will be parsed from url."
+               },
+               "file_type": {
+                "type": "string",
+                "description": "Optional mime type info. Used in some devices to show file icon."
+               }
+              },
+              "required": [
+               "type"
+              ]
+             }
+            },
+            "created_at": {
+             "type": "string",
+             "format": "date-time"
+            }
+           },
+           "required": [
+            "sub_type",
+            "content"
+           ]
+          },
+          "minItems": 1
+         }
+        },
+        "required": [
+         "contact_id"
+        ]
+       },
+       "examples": {
+        "simple": {
+         "summary": "Simple Request",
+         "value": {
+          "contact_id": "ct42ngURiH2M",
+          "text": "Hello"
+         }
+        },
+        "with_messages": {
+         "summary": "With Imported Messages",
+         "description": "Messages can be imported only as contact or bot.",
+         "value": {
+          "contact_id": "ct42ngURiH2M",
+          "messages": [
+           {
+            "sub_type": "contact",
+            "content": {
+             "type": "text",
+             "text": "Hello"
+            },
+            "created_at": "2022-06-20T23:19:42.457Z"
+           },
+           {
+            "sub_type": "bot",
+            "content": {
+             "type": "text",
+             "text": "Hi, how can i help you?"
+            },
+            "created_at": "2022-06-20T23:22:42.457Z"
+           }
+          ]
+         }
+        },
+        "with_tags_and_variables": {
+         "summary": "With Variables and Tags",
+         "value": {
+          "contact_id": "ct42ngURIH2M",
+          "text": "Hello",
+          "tags": [
+           "R8jFuof8Zx"
+          ],
+          "variables": {
+           "foo_bar": "This is Foo Bar"
+          }
+         }
+        },
+        "with_assigned_agents": {
+         "summary": "With Assigned Agents",
+         "value": {
+          "contact_id": "ct42ngURIH2M",
+          "text": "Hello",
+          "assigned_ids": [
+           "301345"
+          ]
+         }
+        },
+        "with_assigned_group": {
+         "summary": "With Assigned Group",
+         "value": {
+          "contact_id": "ct42ngURIH2M",
+          "text": "Hello",
+          "group_id": "gr830dk20r"
+         }
+        }
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_conversation"
+     },
+     "422": {
+      "description": "Unprocessable Entity. The data was well-formed but invalid.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "examples": {
+         "not_found_any_contact_message,_at_least_one_is_required": {
+          "summary": "Not found any contact message, at least one is required",
+          "value": {
+           "code": "no_contact_message",
+           "message": "Not found any contact message, at least one is required"
+          }
+         },
+         "agent_not_found": {
+          "summary": "Agent not found",
+          "value": {
+           "code": "agent_not_found",
+           "message": "Agent not found"
+          }
+         },
+         "group_not_found": {
+          "summary": "Group not found",
+          "value": {
+           "code": "group_not_found",
+           "message": "Group not found"
+          }
+         },
+         "tag_not_found": {
+          "summary": "Tag not found",
+          "value": {
+           "code": "tag_not_found",
+           "message": "Tag not found"
+          }
+         },
+         "property_messages_can't_be_used_together_with_property_text": {
+          "summary": "Property messages can't be used together with property text",
+          "value": {
+           "code": "invalid_arguments",
+           "message": "Property messages can't be used together with property text"
+          }
+         },
+         "invalid_request_arguments": {
+          "summary": "Invalid request arguments",
+          "value": {
+           "code": "invalid_arguments",
+           "message": "Invalid request arguments",
+           "errors": [
+            {
+             "path": "messages[0].sub_type",
+             "code": "enum",
+             "message": "should be equal to one of the allowed values",
+             "location": "body"
+            }
+           ]
+          }
+         },
+         "attachment_of_type_\"image\"_have_not_supported_file_extension_\"doc\"": {
+          "summary": "Attachment of type \"image\" have not supported file extension \"doc\"",
+          "value": {
+           "code": "invalid_attachment_data",
+           "message": "Attachment of type \"image\" have not supported file extension \"doc\""
+          }
+         },
+         "uploaded_file_not_found": {
+          "summary": "Uploaded file not found",
+          "value": {
+           "code": "invalid_attachment_data",
+           "message": "Uploaded file not found"
+          }
+         }
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/conversations/find": {
+   "get": {
+    "operationId": "find",
+    "summary": "Find conversation",
+    "security": [
+     {
+      "bearer": [
+       "conversations:read"
+      ]
+     }
+    ],
+    "tags": [
+     "conversations"
+    ],
+    "parameters": [
+     {
+      "in": "query",
+      "name": "ext_id",
+      "description": "Custom id",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_conversation"
+     },
+     "404": {
+      "$ref": "#/components/responses/err_not_found"
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    },
+    "x-generator-response-nullable": true
+   }
+  },
+  "/conversations/{id}": {
+   "get": {
+    "operationId": "get",
+    "summary": "Get conversation",
+    "security": [
+     {
+      "bearer": [
+       "conversations:read"
+      ]
+     }
+    ],
+    "tags": [
+     "conversations"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "id",
+      "description": "Conversation id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/conversation_id"
+      }
+     },
+     {
+      "in": "query",
+      "name": "messages",
+      "description": "Set `true` to export messages. You get last 200 messages, for more use messages API.",
+      "schema": {
+       "type": "boolean",
+       "default": false
+      }
+     },
+     {
+      "in": "query",
+      "name": "include_notes",
+      "description": "Set `true` to include internal notes in exported messages. Used with `messages`.",
+      "schema": {
+       "type": "boolean",
+       "default": false
+      }
+     },
+     {
+      "in": "query",
+      "name": "paths",
+      "description": "Set `true` to export paths. You get last 200 pats, for more use paths API.",
+      "schema": {
+       "type": "boolean",
+       "default": false
+      }
+     },
+     {
+      "in": "query",
+      "name": "statistics",
+      "description": "Set `true` to export statistics",
+      "schema": {
+       "type": "boolean",
+       "default": false
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Success response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "title": "Get Response",
+         "allOf": [
+          {
+           "$ref": "#/components/schemas/conversation"
+          },
+          {
+           "type": "object",
+           "properties": {
+            "messages": {
+             "$ref": "#/components/schemas/messages_collection"
+            },
+            "paths": {
+             "$ref": "#/components/schemas/paths_collection"
+            },
+            "statistics": {
+             "$ref": "#/components/schemas/conversation_statistics"
+            }
+           }
+          }
+         ]
+        },
+        "examples": {
+         "conversation": {
+          "$ref": "#/components/examples/conversation"
+         }
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "example": {
+         "code": "not_found",
+         "message": "Conversation not found"
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    },
+    "x-generator-response-nullable": true
+   },
+   "patch": {
+    "operationId": "update",
+    "summary": "Update conversation",
+    "security": [
+     {
+      "bearer": [
+       "conversations:write"
+      ]
+     }
+    ],
+    "tags": [
+     "conversations"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "id",
+      "description": "Conversation id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/conversation_id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "group_id": {
+          "description": "Group ID can be retrieved from group's settings.",
+          "anyOf": [
+           {
+            "$ref": "#/components/schemas/group_id"
+           }
+          ],
+          "nullable": true
+         },
+         "variables": {
+          "$ref": "#/components/schemas/variables"
+         },
+         "virtual_agent": {
+          "anyOf": [
+           {
+            "$ref": "#/components/schemas/virtual_agent"
+           }
+          ],
+          "nullable": true
+         }
+        },
+        "additionalProperties": false
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_conversation"
+     },
+     "422": {
+      "description": "Unprocessable Entity. The data was well-formed but invalid.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "examples": {
+         "not_provided_any_valid_data": {
+          "summary": "Not provided any valid data",
+          "value": {
+           "code": "invalid_parameters",
+           "message": "Not provided any valid data"
+          }
+         },
+         "invalid_request_parameters": {
+          "summary": "Invalid request parameters",
+          "value": {
+           "code": "invalid_parameters",
+           "message": "Invalid request parameters"
+          }
+         }
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/conversations/{id}/messages": {
+   "post": {
+    "operationId": "messages_create",
+    "summary": "Reply to conversation",
+    "security": [
+     {
+      "bearer": [
+       "conversations:write"
+      ]
+     }
+    ],
+    "tags": [
+     "conversations"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "id",
+      "description": "Conversation id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/conversation_id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "type": {
+          "type": "string",
+          "enum": [
+           "message"
+          ],
+          "default": "message"
+         },
+         "sub_type": {
+          "type": "string",
+          "enum": [
+           "agent",
+           "contact",
+           "bot"
+          ],
+          "default": "agent"
+         },
+         "agent_id": {
+          "allOf": [
+           {
+            "$ref": "#/components/schemas/agent_id"
+           }
+          ],
+          "description": "Required when `sub_type` is `agent`."
+         },
+         "contact_id": {
+          "allOf": [
+           {
+            "$ref": "#/components/schemas/contact_id"
+           }
+          ],
+          "description": "Required when `sub_type` is `contact`."
+         },
+         "bot_id": {
+          "type": "string",
+          "description": "Required when `sub_type` is `bot`. Identification of bot who send message. Can be any you custom id.",
+          "maxLength": 64
+         },
+         "bot_name": {
+          "type": "string",
+          "description": "Optional when `sub_type` is `bot`. If missing name will be generated from `bot_id`.",
+          "maxLength": 128
+         },
+         "virtual_agent": {
+          "allOf": [
+           {
+            "$ref": "#/components/schemas/virtual_agent"
+           }
+          ],
+          "description": "Optional when `sub_type` is `agent` or `bot`. Virtual agent identity stored on this message and displayed for it in the widget. Not allowed when `sub_type` is `contact`."
+         },
+         "content": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "type": {
+            "type": "string",
+            "enum": [
+             "text"
+            ],
+            "description": "Always `text`."
+           },
+           "text": {
+            "type": "string",
+            "description": "Plain text content. Either text or html must be provided.",
+            "nullable": true
+           },
+           "html": {
+            "type": "string",
+            "description": "HTML content. Only <a> and <br> tags are allowed. Links must use http, https, or mailto schemes. Either text or html must be provided.",
+            "nullable": true
+           },
+           "data": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": true
+           }
+          },
+          "required": [
+           "type"
+          ]
+         },
+         "attachments": {
+          "type": "array",
+          "maxItems": 5,
+          "items": {
+           "type": "object",
+           "additionalProperties": false,
+           "properties": {
+            "type": {
+             "$ref": "#/components/schemas/attachment_type"
+            },
+            "layout": {
+             "type": "string",
+             "enum": [
+              "carousel"
+             ]
+            },
+            "items": {
+             "type": "array",
+             "minItems": 1,
+             "maxItems": 10,
+             "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+               "title": {
+                "type": "string",
+                "maxLength": 100
+               },
+               "description": {
+                "type": "string",
+                "maxLength": 1024
+               },
+               "price": {
+                "type": "string",
+                "maxLength": 32,
+                "deprecated": true,
+                "description": "Deprecated, use originalPrice and salePrice. Pre-formatted price shown by older widgets (e.g., \"\u20ac14.99\"). When omitted, the gateway sets it to salePrice, or originalPrice when there is no salePrice."
+               },
+               "originalPrice": {
+                "type": "string",
+                "maxLength": 32,
+                "description": "Pre-formatted regular price (e.g., \"\u20ac99.99\"). Optional, not computed by gateway."
+               },
+               "salePrice": {
+                "type": "string",
+                "maxLength": 32,
+                "description": "Pre-formatted discounted price (e.g., \"\u20ac79.99\"), sent only while the discount is valid. Optional, not computed by gateway."
+               },
+               "priceDisplay": {
+                "type": "string",
+                "enum": [
+                 "currentOnly",
+                 "currentWithOriginal"
+                ],
+                "description": "How the widget shows the price. currentWithOriginal shows originalPrice crossed out next to salePrice. Optional, currentOnly when omitted."
+               },
+               "image": {
+                "type": "string"
+               },
+               "actions": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 1,
+                "items": {
+                 "type": "object",
+                 "additionalProperties": false,
+                 "properties": {
+                  "type": {
+                   "type": "string",
+                   "enum": [
+                    "open_url"
+                   ]
+                  },
+                  "title": {
+                   "type": "string"
+                  },
+                  "value": {
+                   "type": "string",
+                   "format": "uri",
+                   "pattern": "^https?://"
+                  }
+                 },
+                 "required": [
+                  "type",
+                  "title",
+                  "value"
+                 ]
+                }
+               }
+              },
+              "required": [
+               "title",
+               "actions"
+              ]
+             }
+            },
+            "url": {
+             "type": "string",
+             "description": "Required for types `file` and `image`. Must be an http(s) URL."
+            },
+            "token": {
+             "type": "string",
+             "description": "Required for type `upload`. Token can be retrieved from Upload API."
+            },
+            "file_name": {
+             "type": "string",
+             "description": "If missing then name will be parsed from url."
+            },
+            "file_type": {
+             "type": "string",
+             "description": "Optional mime type info. Used in some devices to show file icon."
+            }
+           },
+           "required": [
+            "type"
+           ]
+          }
+         },
+         "ext_id": {
+          "type": "string",
+          "description": "Your custom message id."
+         }
+        }
+       },
+       "examples": {
+        "contact_text": {
+         "summary": "Contact - Text Message",
+         "value": {
+          "sub_type": "contact",
+          "contact_id": "ctqtaTAj40Ps",
+          "content": {
+           "type": "text",
+           "text": "This is contact message"
+          }
+         }
+        },
+        "contact_html": {
+         "summary": "Contact - HTML Message",
+         "value": {
+          "sub_type": "contact",
+          "contact_id": "ctqtaTAj40Ps",
+          "content": {
+           "type": "text",
+           "html": "This is a <a href=\"https://example.com\">HTML message</a><br>with link"
+          }
+         }
+        },
+        "agent_text": {
+         "summary": "Agent - Text Message",
+         "value": {
+          "sub_type": "agent",
+          "agent_id": "301345",
+          "content": {
+           "type": "text",
+           "text": "This is agent replay"
+          }
+         }
+        },
+        "agent_html": {
+         "summary": "Agent - HTML Message",
+         "value": {
+          "sub_type": "agent",
+          "agent_id": "301345",
+          "content": {
+           "type": "text",
+           "html": "This is a <a href=\"https://example.com\">HTML reply</a><br>with link"
+          }
+         }
+        },
+        "agent_virtual_agent": {
+         "summary": "Agent - Message With Virtual Agent",
+         "value": {
+          "sub_type": "agent",
+          "agent_id": "301345",
+          "content": {
+           "type": "text",
+           "text": "How can I help you?"
+          },
+          "virtual_agent": {
+           "name": "John",
+           "description": "Customer care",
+           "avatar": "https://files.smartsuppcdn.com/files/agents/avatars/136-dfIPPz2Oz6.png"
+          }
+         }
+        },
+        "bot_text": {
+         "summary": "Bot - Text Message",
+         "value": {
+          "sub_type": "bot",
+          "bot_id": "your_custom_bot_id",
+          "content": {
+           "type": "text",
+           "text": "This is bot replay"
+          }
+         }
+        },
+        "agent_image": {
+         "summary": "Agent - Image Message",
+         "value": {
+          "agent_id": "301345",
+          "attachments": [
+           {
+            "type": "image",
+            "url": "https://www.smartsuppcdn.com/assets/thumb.png"
+           }
+          ]
+         }
+        },
+        "agent_file": {
+         "summary": "Agent - File Message",
+         "value": {
+          "agent_id": "301345",
+          "attachments": [
+           {
+            "type": "file",
+            "url": "https://www.smartsuppcdn.com/data/Smartsupp_DPA_EN_web_29_06_2021.pdf"
+           }
+          ]
+         }
+        },
+        "agent_cards": {
+         "summary": "Agent - Cards (carousel) Message",
+         "value": {
+          "agent_id": "301345",
+          "content": {
+           "type": "text",
+           "text": "Recommended for you:"
+          },
+          "attachments": [
+           {
+            "type": "cards",
+            "layout": "carousel",
+            "items": [
+             {
+              "title": "Wireless Headphones Pro",
+              "description": "Noise-cancelling over-ear headphones, 30h battery.",
+              "originalPrice": "\u20ac299.99",
+              "priceDisplay": "currentOnly",
+              "price": "\u20ac299.99",
+              "image": "https://www.smartsuppcdn.com/assets/thumb.png",
+              "actions": [
+               {
+                "type": "open_url",
+                "title": "View product",
+                "value": "https://example.com/p/headphones"
+               }
+              ]
+             },
+             {
+              "title": "Bluetooth Speaker Mini",
+              "description": "Compact waterproof speaker with deep bass.",
+              "originalPrice": "\u20ac99.99",
+              "salePrice": "\u20ac79.99",
+              "priceDisplay": "currentWithOriginal",
+              "price": "\u20ac79.99",
+              "image": "https://www.smartsuppcdn.com/assets/thumb.png",
+              "actions": [
+               {
+                "type": "open_url",
+                "title": "View product",
+                "value": "https://example.com/p/speaker"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        },
+        "agent_text_with_image": {
+         "summary": "Agent - Text With Image Message",
+         "value": {
+          "agent_id": "301345",
+          "content": {
+           "type": "text",
+           "text": "This is agent replay"
+          },
+          "attachments": [
+           {
+            "type": "image",
+            "url": "https://www.smartsuppcdn.com/assets/thumb.png"
+           }
+          ]
+         }
+        },
+        "agent_text_with_file": {
+         "summary": "Agent - Text With File Message",
+         "value": {
+          "agent_id": "301345",
+          "content": {
+           "type": "text",
+           "text": "This is agent replay"
+          },
+          "attachments": [
+           {
+            "type": "file",
+            "url": "https://www.smartsuppcdn.com/data/Smartsupp_DPA_EN_web_29_06_2021.pdf"
+           }
+          ]
+         }
+        }
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_message"
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "example": {
+         "code": "not_found",
+         "message": "Conversation not found"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Entity. The data was well-formed but invalid.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "examples": {
+         "invalid_request_arguments": {
+          "summary": "Invalid request arguments",
+          "value": {
+           "code": "invalid_arguments",
+           "message": "Invalid request arguments"
+          }
+         },
+         "agent_not_found": {
+          "summary": "Agent not found",
+          "value": {
+           "code": "agent_not_found",
+           "message": "Agent not found"
+          }
+         },
+         "attachment_of_type_\"image\"_have_not_supported_file_extension_\"doc\"": {
+          "summary": "Attachment of type \"image\" have not supported file extension \"doc\"",
+          "value": {
+           "code": "invalid_attachment_data",
+           "message": "Attachment of type \"image\" have not supported file extension \"doc\""
+          }
+         },
+         "uploaded_file_not_found": {
+          "summary": "Uploaded file not found",
+          "value": {
+           "code": "invalid_attachment_data",
+           "message": "Uploaded file not found"
+          }
+         }
+        }
+       }
+      }
+     },
+     "429": {
+      "description": "Too many requests",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "examples": {
+         "conversations_limit_reached": {
+          "summary": "Conversations limit reached",
+          "value": {
+           "code": "conversations_limit_reached",
+           "message": "Conversations limit reached"
+          }
+         }
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   },
+   "get": {
+    "operationId": "messages_list",
+    "summary": "List conversation messages",
+    "security": [
+     {
+      "bearer": [
+       "conversations:read"
+      ]
+     }
+    ],
+    "tags": [
+     "conversations"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "id",
+      "description": "Conversation id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/conversation_id"
+      }
+     },
+     {
+      "in": "query",
+      "name": "size",
+      "description": "Messages max count",
+      "required": false,
+      "schema": {
+       "type": "number",
+       "default": 50
+      }
+     },
+     {
+      "in": "query",
+      "name": "after",
+      "description": "List messages after",
+      "required": false,
+      "schema": {
+       "type": "number",
+       "default": null
+      }
+     },
+     {
+      "in": "query",
+      "name": "sort",
+      "description": "Sort messages by time",
+      "required": false,
+      "schema": {
+       "type": "string",
+       "enum": [
+        "asc",
+        "desc",
+        "ASC",
+        "DESC"
+       ],
+       "default": "desc"
+      }
+     },
+     {
+      "in": "query",
+      "name": "include_notes",
+      "description": "Set `true` to include internal notes (messages of type `note`).",
+      "required": false,
+      "schema": {
+       "type": "boolean",
+       "default": false
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Success response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/messages_collection"
+        },
+        "example": {
+         "total": 1000,
+         "items": [
+          "<Message Object>",
+          "<Message Object>"
+         ],
+         "after": [
+          1585454846490
+         ]
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "example": {
+         "code": "not_found",
+         "message": "Conversation not found"
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/conversations/{id}/notes": {
+   "post": {
+    "operationId": "notes_create",
+    "summary": "Add internal note to conversation",
+    "description": "Adds an internal note visible only to agents. The note does not assign the conversation and does not change its status.",
+    "security": [
+     {
+      "bearer": [
+       "conversations:write"
+      ]
+     }
+    ],
+    "tags": [
+     "conversations"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "id",
+      "description": "Conversation id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/conversation_id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "agent_id": {
+          "allOf": [
+           {
+            "$ref": "#/components/schemas/agent_id"
+           }
+          ],
+          "description": "Author of the note. Must be an active agent."
+         },
+         "content": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "text": {
+            "type": "string",
+            "description": "Plain text content. Either text or html must be provided.",
+            "nullable": true
+           },
+           "html": {
+            "type": "string",
+            "description": "HTML content. Only <a> and <br> tags are allowed. Links must use http, https, or mailto schemes. Either text or html must be provided.",
+            "nullable": true
+           }
+          }
+         }
+        },
+        "required": [
+         "agent_id",
+         "content"
+        ]
+       },
+       "examples": {
+        "text": {
+         "summary": "Text note",
+         "value": {
+          "agent_id": "301345",
+          "content": {
+           "text": "Customer prefers a call back after 3 pm."
+          }
+         }
+        },
+        "html": {
+         "summary": "HTML note",
+         "value": {
+          "agent_id": "301345",
+          "content": {
+           "html": "Refund approved, see <a href=\"https://example.com/tickets/42\">ticket 42</a>"
+          }
+         }
+        }
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_message"
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "example": {
+         "code": "not_found",
+         "message": "Conversation not found"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Entity. The data was well-formed but invalid.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "examples": {
+         "either_property_content.text_or_content.html_is_required_and_must_not_be_empty": {
+          "summary": "Either property content.text or content.html is required and must not be empty",
+          "value": {
+           "code": "invalid_parameters",
+           "message": "Either property content.text or content.html is required and must not be empty"
+          }
+         },
+         "agent_not_found": {
+          "summary": "Agent not found",
+          "value": {
+           "code": "agent_not_found",
+           "message": "Agent not found"
+          }
+         },
+         "agent_not_active._only_active_agents_can_write_notes": {
+          "summary": "Agent not active. Only active agents can write notes",
+          "value": {
+           "code": "agent_not_active",
+           "message": "Agent not active. Only active agents can write notes"
+          }
+         }
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/conversations/{id}/open": {
+   "patch": {
+    "operationId": "open",
+    "summary": "Open conversation",
+    "security": [
+     {
+      "bearer": [
+       "conversations:write"
+      ]
+     }
+    ],
+    "tags": [
+     "conversations"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "id",
+      "description": "Conversation id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/conversation_id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_ok"
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "example": {
+         "code": "not_found",
+         "message": "Conversation not found"
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/conversations/search": {
+   "post": {
+    "operationId": "search",
+    "summary": "Search conversations",
+    "security": [
+     {
+      "bearer": [
+       "conversations:read"
+      ]
+     }
+    ],
+    "tags": [
+     "conversations"
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/search_request"
+       },
+       "examples": {
+        "open_conversations": {
+         "summary": "Open conversations",
+         "description": "Search for open conversations. The result is sorted by date `finishedAt`.",
+         "value": {
+          "timezone": "UTC",
+          "size": 50,
+          "query": [
+           {
+            "field": "status",
+            "value": "open"
+           }
+          ],
+          "sort": [
+           {
+            "created_at": "asc"
+           }
+          ],
+          "after": [
+           1585454846490
+          ]
+         }
+        },
+        "open_and_served_conversations": {
+         "summary": "Open and Served conversations",
+         "description": "Search for open and served conversations.",
+         "value": {
+          "timezone": "UTC",
+          "size": 50,
+          "query": [
+           {
+            "field": "status",
+            "value": [
+             "open",
+             "served"
+            ]
+           }
+          ],
+          "sort": [
+           {
+            "created_at": "asc"
+           }
+          ],
+          "after": [
+           1585454846490
+          ]
+         }
+        },
+        "closed_conversations": {
+         "summary": "Closed conversations",
+         "description": "Search for closed conversations. The result is sorted by date `finishedAt`.",
+         "value": {
+          "timezone": "UTC",
+          "size": 50,
+          "query": [
+           {
+            "field": "status",
+            "value": "closed"
+           }
+          ],
+          "sort": [
+           {
+            "finished_at": "asc"
+           }
+          ],
+          "after": [
+           1585454846490
+          ]
+         }
+        },
+        "conversations_by_text": {
+         "summary": "Conversations by text",
+         "description": "Search open and closed conversations whose messages or contact name/email contain a phrase.\nSee `text` in the request schema for the limits.",
+         "value": {
+          "timezone": "UTC",
+          "size": 50,
+          "text": "refund policy",
+          "sort": [
+           {
+            "created_at": "desc"
+           }
+          ]
+         }
+        },
+        "closed_conversations_by_date": {
+         "summary": "Closed conversations by date",
+         "description": "Search for closed conversations with date range.\nField `finishedAt` have type `range` so value must array of dates min and max respectively.\nThe result is sorted by date `finishedAt`.",
+         "value": {
+          "timezone": "UTC",
+          "size": 50,
+          "query": [
+           {
+            "field": "status",
+            "value": "closed"
+           },
+           {
+            "field": "finished_at",
+            "value": [
+             "2020-08-08T00:00:00",
+             "2020-08-08T23:59:59"
+            ]
+           }
+          ],
+          "sort": [
+           {
+            "finished_at": "asc"
+           }
+          ],
+          "after": [
+           1585454846490
+          ]
+         }
+        }
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Success response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/conversations_collection"
+        },
+        "example": {
+         "total": 1000,
+         "items": [
+          "<Conversation Object>",
+          "<Conversation Object>"
+         ],
+         "after": [
+          1585454846490
+         ]
+        }
+       }
+      }
+     },
+     "422": {
+      "$ref": "#/components/responses/err_unprocessable"
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/conversations/{id}/rate": {
+   "patch": {
+    "operationId": "rate",
+    "summary": "Rate conversation",
+    "security": [
+     {
+      "bearer": [
+       "conversations:write"
+      ]
+     }
+    ],
+    "tags": [
+     "conversations"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "id",
+      "description": "Conversation id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/conversation_id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "value": {
+          "description": "Numeric value of the rating. Currently supported only 1,3,5",
+          "type": "integer",
+          "enum": [
+           1,
+           3,
+           5
+          ]
+         },
+         "text": {
+          "description": "Rating text filled by visitor.",
+          "type": "string",
+          "maxLength": 500
+         }
+        },
+        "required": [
+         "value"
+        ]
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_ok"
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "example": {
+         "code": "not_found",
+         "message": "Conversation not found"
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/conversations/{id}/tags": {
+   "post": {
+    "operationId": "tags_add",
+    "summary": "Tag conversation",
+    "security": [
+     {
+      "bearer": [
+       "conversations:write"
+      ]
+     }
+    ],
+    "tags": [
+     "conversations"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "id",
+      "description": "Conversation id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/conversation_id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "id": {
+          "$ref": "#/components/schemas/tag_id"
+         }
+        },
+        "required": [
+         "id"
+        ]
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_tag"
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "examples": {
+         "tag_not_found": {
+          "summary": "Tag not found",
+          "value": {
+           "code": "not_found",
+           "message": "Tag not found"
+          }
+         },
+         "conversation_not_found": {
+          "summary": "Conversation not found",
+          "value": {
+           "code": "not_found",
+           "message": "Conversation not found"
+          }
+         }
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   },
+   "get": {
+    "operationId": "tags_list",
+    "summary": "List attached tags",
+    "security": [
+     {
+      "bearer": [
+       "conversations:read"
+      ]
+     }
+    ],
+    "tags": [
+     "conversations"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "id",
+      "description": "Conversation id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/conversation_id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Success response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/tag"
+         }
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "examples": {
+         "conversation_not_found": {
+          "summary": "Conversation not found",
+          "value": {
+           "code": "not_found",
+           "message": "Conversation not found"
+          }
+         }
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/conversations/{id}/tags/{tag_id}": {
+   "delete": {
+    "operationId": "tags_remove",
+    "summary": "Untag conversation",
+    "security": [
+     {
+      "bearer": [
+       "conversations:write"
+      ]
+     }
+    ],
+    "tags": [
+     "conversations"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "id",
+      "description": "Conversation id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/conversation_id"
+      }
+     },
+     {
+      "in": "path",
+      "name": "tag_id",
+      "description": "Tag id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/tag_id"
+      }
+     }
+    ],
+    "responses": {
+     "204": {
+      "description": "Success response"
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "examples": {
+         "tag_not_found": {
+          "summary": "Tag not found",
+          "value": {
+           "code": "not_found",
+           "message": "Tag not found"
+          }
+         },
+         "conversation_not_found": {
+          "summary": "Conversation not found",
+          "value": {
+           "code": "not_found",
+           "message": "Conversation not found"
+          }
+         }
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/conversations/{id}/transcript": {
+   "post": {
+    "operationId": "transcript",
+    "summary": "Send conversation transcript",
+    "security": [
+     {
+      "bearer": [
+       "conversations:read"
+      ]
+     }
+    ],
+    "tags": [
+     "conversations"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "id",
+      "description": "Conversation id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/conversation_id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "email": {
+          "type": "string"
+         },
+         "lang": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "email",
+         "lang"
+        ]
+       },
+       "examples": {
+        "success": {
+         "summary": "Request Example",
+         "value": {
+          "email": "john@doe.com",
+          "lang": "en"
+         }
+        }
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_ok"
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "example": {
+         "code": "not_found",
+         "message": "Conversation not found"
+        }
+       }
+      }
+     },
+     "422": {
+      "$ref": "#/components/responses/err_unprocessable"
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/conversations/{id}/trigger-rating": {
+   "patch": {
+    "operationId": "trigger_rating",
+    "summary": "Trigger conversation rating",
+    "security": [
+     {
+      "bearer": [
+       "conversations:write"
+      ]
+     }
+    ],
+    "tags": [
+     "conversations"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "id",
+      "description": "Conversation id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/conversation_id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_ok"
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "example": {
+         "code": "not_found",
+         "message": "Conversation not found"
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/conversations/{id}/typing": {
+   "post": {
+    "operationId": "typing",
+    "summary": "Set typing in conversation",
+    "security": [
+     {
+      "bearer": [
+       "conversations:write"
+      ]
+     }
+    ],
+    "tags": [
+     "conversations"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "id",
+      "description": "Conversation id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/conversation_id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "active": {
+          "type": "boolean",
+          "default": true
+         }
+        },
+        "required": [
+         "active"
+        ]
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_ok"
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "example": {
+         "code": "not_found",
+         "message": "Conversation not found"
+        }
+       }
+      }
+     },
+     "422": {
+      "$ref": "#/components/responses/err_unprocessable"
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/files/upload/token": {
+   "get": {
+    "operationId": "get_upload_token",
+    "summary": "Get Upload Token",
+    "security": [
+     {
+      "bearer": [
+       "files:upload"
+      ]
+     }
+    ],
+    "tags": [
+     "files"
+    ],
+    "responses": {
+     "200": {
+      "description": "Success response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "token": {
+           "type": "string",
+           "example": "Z7d61XawM"
+          },
+          "url": {
+           "type": "string",
+           "example": "https://files.smartsupp.com/upload/Z7d61XawM"
+          }
+         },
+         "required": [
+          "token",
+          "url"
+         ]
+        }
+       }
+      }
+     },
+     "400": {
+      "$ref": "#/components/responses/err_unprocessable"
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/messages/find": {
+   "get": {
+    "operationId": "find",
+    "summary": "Find message",
+    "security": [
+     {
+      "bearer": [
+       "conversations:read"
+      ]
+     }
+    ],
+    "tags": [
+     "messages"
+    ],
+    "parameters": [
+     {
+      "in": "query",
+      "name": "ext_id",
+      "description": "Custom id",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_message"
+     },
+     "404": {
+      "$ref": "#/components/responses/err_not_found"
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    },
+    "x-generator-response-nullable": true
+   }
+  },
+  "/messages/{id}": {
+   "get": {
+    "operationId": "get",
+    "summary": "Get message",
+    "security": [
+     {
+      "bearer": [
+       "conversations:read"
+      ]
+     }
+    ],
+    "tags": [
+     "messages"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "id",
+      "description": "Message id",
+      "required": true,
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_message"
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "example": {
+         "code": "not_found",
+         "message": "Message not found"
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    },
+    "x-generator-response-nullable": true
+   }
+  },
+  "/oauth/access": {
+   "post": {
+    "operationId": "access",
+    "summary": "Get access token",
+    "description": "Exchanges a temporary OAuth verifier code for an access token.",
+    "tags": [
+     "oauth"
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "client_id": {
+          "type": "string"
+         },
+         "client_secret": {
+          "type": "string"
+         },
+         "code": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "client_id",
+         "client_secret",
+         "code"
+        ]
+       }
+      },
+      "application/x-www-form-urlencoded": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "client_id": {
+          "type": "string"
+         },
+         "client_secret": {
+          "type": "string"
+         },
+         "code": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "client_id",
+         "client_secret",
+         "code"
+        ]
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Success response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/oauth_token"
+        }
+       }
+      }
+     },
+     "401": {
+      "$ref": "#/components/responses/err_unauthorized"
+     },
+     "422": {
+      "$ref": "#/components/responses/err_unprocessable"
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/visitors/{id}/conversations": {
+   "post": {
+    "operationId": "conversation_create",
+    "summary": "Initiate new conversation",
+    "security": [
+     {
+      "bearer": [
+       "visitors:conversations:write"
+      ]
+     }
+    ],
+    "tags": [
+     "visitors"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "id",
+      "description": "Visitor id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/visitor_id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "message": {
+          "$ref": "#/components/schemas/visitor_message_request"
+         }
+        },
+        "required": [
+         "message"
+        ]
+       },
+       "examples": {
+        "create": {
+         "$ref": "#/components/examples/visitor_conversation_create_request"
+        }
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_visitor_message"
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "example": {
+         "code": "not_found",
+         "message": "Visitor not found"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Entity. The data was well-formed but invalid.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "examples": {
+         "invalid_request_arguments": {
+          "summary": "Invalid request arguments",
+          "value": {
+           "code": "invalid_arguments",
+           "message": "Invalid request arguments"
+          }
+         },
+         "conversation_already_started": {
+          "summary": "Conversation already started",
+          "value": {
+           "code": "conversation_already_started",
+           "message": "Conversation already started"
+          }
+         },
+         "visitor_have_active_another_conversation": {
+          "summary": "Visitor have active another conversation",
+          "value": {
+           "code": "conversation_not_allowed",
+           "message": "Visitor have active another conversation"
+          }
+         }
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/visitors/{id}/conversations/{conversation_id}/messages": {
+   "post": {
+    "operationId": "conversation_message",
+    "summary": "Send message to conversation",
+    "security": [
+     {
+      "bearer": [
+       "visitors:conversations:write"
+      ]
+     }
+    ],
+    "tags": [
+     "visitors"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "id",
+      "description": "Visitor id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/visitor_id"
+      }
+     },
+     {
+      "in": "path",
+      "name": "conversation_id",
+      "description": "Conversation id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/conversation_id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/visitor_message_request"
+       },
+       "examples": {
+        "text": {
+         "$ref": "#/components/examples/visitor_message_text_request"
+        },
+        "image": {
+         "$ref": "#/components/examples/visitor_message_image_request"
+        }
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_visitor_message"
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "example": {
+         "code": "not_found",
+         "message": "Visitor not found"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Entity. The data was well-formed but invalid.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "examples": {
+         "invalid_request_arguments": {
+          "summary": "Invalid request arguments",
+          "value": {
+           "code": "invalid_arguments",
+           "message": "Invalid request arguments"
+          }
+         },
+         "visitor_have_active_another_conversation": {
+          "summary": "Visitor have active another conversation",
+          "value": {
+           "code": "conversation_not_allowed",
+           "message": "Visitor have active another conversation"
+          }
+         }
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/visitors/{id}/conversations/{conversation_id}/open": {
+   "post": {
+    "operationId": "conversation_open",
+    "summary": "Open conversation and notify agents",
+    "security": [
+     {
+      "bearer": [
+       "visitors:conversations:write"
+      ]
+     }
+    ],
+    "tags": [
+     "visitors"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "id",
+      "description": "Visitor id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/visitor_id"
+      }
+     },
+     {
+      "in": "path",
+      "name": "conversation_id",
+      "description": "Conversation id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/conversation_id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_ok"
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "examples": {
+         "conversation_not_found": {
+          "summary": "Conversation not found",
+          "value": {
+           "code": "not_found",
+           "message": "Conversation not found"
+          }
+         }
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/visitors/{id}/conversations/{conversation_id}/typing": {
+   "post": {
+    "operationId": "conversation_typing",
+    "summary": "Set typing to conversation",
+    "security": [
+     {
+      "bearer": [
+       "conversations:write"
+      ]
+     }
+    ],
+    "tags": [
+     "visitors"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "id",
+      "description": "Visitor id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/visitor_id"
+      }
+     },
+     {
+      "in": "path",
+      "name": "conversation_id",
+      "description": "Conversation id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/conversation_id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "active": {
+          "type": "boolean"
+         }
+        },
+        "required": [
+         "active"
+        ]
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_ok"
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "examples": {
+         "conversation_not_found": {
+          "summary": "Conversation not found",
+          "value": {
+           "code": "not_found",
+           "message": "Conversation not found"
+          }
+         }
+        }
+       }
+      }
+     },
+     "422": {
+      "$ref": "#/components/responses/err_unprocessable"
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/visitors/{id}": {
+   "get": {
+    "operationId": "get",
+    "summary": "Get visitor",
+    "security": [
+     {
+      "bearer": [
+       "visitors:read",
+       "contacts:read"
+      ]
+     }
+    ],
+    "tags": [
+     "visitors"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "id",
+      "description": "Visitor id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/visitor_id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_visitor"
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "example": {
+         "code": "not_found",
+         "message": "Visitor not found"
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    },
+    "x-generator-response-nullable": true
+   },
+   "patch": {
+    "operationId": "update",
+    "summary": "Update visitor",
+    "security": [
+     {
+      "bearer": [
+       "visitors:write"
+      ]
+     }
+    ],
+    "tags": [
+     "visitors"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "id",
+      "description": "Visitor id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/visitor_id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "group": {
+          "type": "string",
+          "nullable": true
+         },
+         "email": {
+          "type": "string"
+         },
+         "name": {
+          "type": "string"
+         },
+         "phone": {
+          "type": "string"
+         },
+         "variables": {
+          "type": "object",
+          "additionalProperties": true
+         }
+        }
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_visitor"
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "example": {
+         "code": "not_found",
+         "message": "Visitor not found or not online"
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/visitors/{id}/paths": {
+   "get": {
+    "operationId": "get_paths",
+    "summary": "Get visitor paths",
+    "security": [
+     {
+      "bearer": [
+       "visitors:read"
+      ]
+     }
+    ],
+    "tags": [
+     "visitors"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "id",
+      "description": "Visitor id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/visitor_id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Success response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/path"
+         }
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "example": {
+         "code": "not_found",
+         "message": "Visitor not found"
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/settings/office-hours": {
+   "get": {
+    "operationId": "get_office_hours",
+    "summary": "Get the office hours settings",
+    "security": [
+     {
+      "bearer": []
+     }
+    ],
+    "tags": [
+     "settings"
+    ],
+    "responses": {
+     "200": {
+      "description": "Success response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object"
+        },
+        "example": {
+         "active": true,
+         "config": [
+          {
+           "dow": 0,
+           "enabled": false,
+           "times": [
+            {
+             "from": 480,
+             "to": 1020
+            }
+           ]
+          }
+         ]
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/settings/domain-whitelist": {
+   "get": {
+    "operationId": "get_domain_whitelist",
+    "summary": "Get whitelisted domain list",
+    "security": [
+     {
+      "bearer": []
+     }
+    ],
+    "tags": [
+     "settings"
+    ],
+    "responses": {
+     "200": {
+      "description": "Success response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "allowedDomains": {
+           "type": "array",
+           "items": {
+            "type": "string"
+           }
+          }
+         }
+        },
+        "example": {
+         "allowedDomains": [
+          "www.example.com",
+          "www.page.com"
+         ]
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   },
+   "put": {
+    "operationId": "put_domain_whitelist",
+    "summary": "Updated whitelisted domain list",
+    "security": [
+     {
+      "bearer": []
+     }
+    ],
+    "tags": [
+     "settings"
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "allowedDomains": {
+          "type": "array",
+          "items": {
+           "type": "string"
+          }
+         }
+        },
+        "required": [
+         "allowedDomains"
+        ]
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_ok"
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/statistics": {
+   "post": {
+    "operationId": "get",
+    "summary": "Get statistic",
+    "security": [
+     {
+      "bearer": [
+       "statistics:read"
+      ]
+     }
+    ],
+    "tags": [
+     "statistics"
+    ],
+    "parameters": [
+     {
+      "in": "query",
+      "name": "timezone",
+      "description": "The Timezone eg: Europe/Prague. Default is UTC.",
+      "schema": {
+       "type": "string",
+       "default": "UTC"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "title": "QueryItemSet",
+        "type": "object",
+        "minProperties": 1,
+        "additionalProperties": {
+         "title": "QueryItem",
+         "type": "object",
+         "additionalProperties": false,
+         "properties": {
+          "name": {
+           "title": "Metric Name Enum",
+           "type": "string",
+           "enum": [
+            "response_time",
+            "first_response_time",
+            "time_to_close",
+            "time_to_close_sum",
+            "new_conversation",
+            "closed_conversation",
+            "conversation_ratings"
+           ]
+          },
+          "range": {
+           "type": "object",
+           "additionalProperties": false,
+           "properties": {
+            "from": {
+             "anyOf": [
+              {
+               "$ref": "#/components/schemas/date_time"
+              }
+             ],
+             "nullable": true
+            },
+            "to": {
+             "anyOf": [
+              {
+               "$ref": "#/components/schemas/date_time"
+              }
+             ],
+             "nullable": true
+            }
+           }
+          },
+          "query": {
+           "type": "array",
+           "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+             "field": {
+              "anyOf": [
+               {
+                "type": "string",
+                "enum": [
+                 "status",
+                 "group_id",
+                 "agent_ids",
+                 "assigned_ids",
+                 "rating_value",
+                 "domain",
+                 "agent_id",
+                 "trigger_id",
+                 "response_time",
+                 "is_reply",
+                 "is_first_reply",
+                 "is_offline",
+                 "is_offline_reply"
+                ]
+               },
+               {
+                "type": "string"
+               }
+              ]
+             },
+             "value": {
+              "$ref": "#/components/schemas/query_value"
+             }
+            },
+            "required": [
+             "field",
+             "value"
+            ]
+           }
+          },
+          "aggs": {
+           "type": "array",
+           "maximum": 3,
+           "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+             "type": {
+              "type": "string",
+              "enum": [
+               "date",
+               "terms"
+              ]
+             },
+             "field": {
+              "anyOf": [
+               {
+                "type": "string",
+                "enum": [
+                 "status",
+                 "group_id",
+                 "agent_ids",
+                 "assigned_ids",
+                 "rating_value",
+                 "domain",
+                 "agent_id",
+                 "trigger_id",
+                 "is_reply",
+                 "is_first_reply",
+                 "is_offline",
+                 "is_offline_reply"
+                ]
+               },
+               {
+                "type": "string"
+               }
+              ]
+             },
+             "interval": {
+              "type": "string",
+              "enum": [
+               "day",
+               "week",
+               "month",
+               "year",
+               "day_of_week",
+               "hour_of_day"
+              ]
+             },
+             "format": {
+              "type": "string",
+              "description": "Moment.js format, eg: YYYY_DDD"
+             }
+            },
+            "required": [
+             "type"
+            ]
+           }
+          }
+         },
+         "required": [
+          "name"
+         ]
+        }
+       },
+       "examples": {
+        "agg_simple": {
+         "summary": "Simple Aggregation",
+         "description": "Fetch data with simple aggregation",
+         "value": {
+          "my_result_item_name": {
+           "name": "new_conversation",
+           "range": {
+            "from": "2020-08-03T22:00:00",
+            "to": "2020-09-02T21:59:59"
+           },
+           "aggs": [
+            {
+             "type": "date",
+             "interval": "day",
+             "format": "YYYY_MM_DD"
+            }
+           ]
+          }
+         }
+        },
+        "agg_advanced": {
+         "summary": "Multiple Aggregations",
+         "description": "Fetch data with simple aggregation",
+         "value": {
+          "my_result_item_name": {
+           "name": "new_conversation",
+           "range": {
+            "from": "2020-08-03T22:00:00",
+            "to": "2020-09-02T21:59:59"
+           },
+           "aggs": [
+            {
+             "type": "date",
+             "interval": "day_of_week"
+            },
+            {
+             "type": "date",
+             "interval": "hour_of_day"
+            }
+           ]
+          }
+         }
+        },
+        "agg_by_group": {
+         "summary": "Aggregation by Group",
+         "description": "Fetch data with field aggregation",
+         "value": {
+          "my_result_item_name": {
+           "name": "new_conversation",
+           "range": {
+            "from": "2020-08-03T22:00:00",
+            "to": "2020-09-02T21:59:59"
+           },
+           "aggs": [
+            {
+             "type": "terms",
+             "field": "group_id"
+            }
+           ]
+          }
+         }
+        },
+        "agg_by_agent": {
+         "summary": "Aggregation by Agent",
+         "description": "Fetch data with field aggregation",
+         "value": {
+          "my_result_item_name": {
+           "name": "new_conversation",
+           "range": {
+            "from": "2020-08-03T22:00:00",
+            "to": "2020-09-02T21:59:59"
+           },
+           "aggs": [
+            {
+             "type": "terms",
+             "field": "agent_ids"
+            }
+           ]
+          }
+         }
+        },
+        "query_by_agent": {
+         "summary": "Query by agent",
+         "description": "Fetch data with query by agent",
+         "value": {
+          "my_result_item_name": {
+           "name": "closed_conversation",
+           "range": {
+            "from": "2020-08-03T22:00:00",
+            "to": "2020-09-02T21:59:59"
+           },
+           "query": [
+            {
+             "field": "agent_ids",
+             "value": "1234"
+            }
+           ]
+          }
+         }
+        },
+        "query_by_agents": {
+         "summary": "Query by multiple agents",
+         "description": "Fetch data with query by agent",
+         "value": {
+          "my_result_item_name": {
+           "name": "closed_conversation",
+           "range": {
+            "from": "2020-08-03T22:00:00",
+            "to": "2020-09-02T21:59:59"
+           },
+           "query": [
+            {
+             "field": "agent_ids",
+             "value": [
+              "1234",
+              "1235"
+             ]
+            }
+           ]
+          }
+         }
+        },
+        "query_by_group": {
+         "summary": "Query by group",
+         "description": "Fetch data with query by group",
+         "value": {
+          "my_result_item_name": {
+           "name": "closed_conversation",
+           "range": {
+            "from": "2020-08-03T22:00:00",
+            "to": "2020-09-02T21:59:59"
+           },
+           "query": [
+            {
+             "field": "group_id",
+             "value": "owDkl20swA"
+            }
+           ]
+          }
+         }
+        }
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_statistics"
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/tags": {
+   "post": {
+    "operationId": "create",
+    "summary": "Create a tag",
+    "security": [
+     {
+      "bearer": [
+       "tags:write"
+      ]
+     }
+    ],
+    "tags": [
+     "tags"
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "name": {
+          "type": "string",
+          "description": "Name of the tag visible in dashboard.",
+          "example": "Payment issues",
+          "minLength": 1,
+          "maxLength": 128
+         },
+         "description": {
+          "type": "string",
+          "description": "Description of the tag visible as tooltip.",
+          "example": "Long description of the tag",
+          "maxLength": 1000
+         },
+         "color": {
+          "type": "string",
+          "description": "Color of the tag",
+          "example": "#a1b2c3",
+          "pattern": "^(|#?[a-fA-F0-9]{6})$"
+         }
+        },
+        "required": [
+         "name"
+        ]
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_tag"
+     },
+     "409": {
+      "description": "Tag name conflicts with existing tag name.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Entity. The data was well-formed but invalid.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "example": {
+         "code": "invalid_arguments",
+         "message": "Invalid request arguments"
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   },
+   "get": {
+    "operationId": "list",
+    "summary": "List all tags",
+    "security": [
+     {
+      "bearer": [
+       "tags:read"
+      ]
+     }
+    ],
+    "tags": [
+     "tags"
+    ],
+    "responses": {
+     "200": {
+      "description": "Success response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/tag"
+         }
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  },
+  "/tags/{tag_id}": {
+   "delete": {
+    "operationId": "delete",
+    "summary": "Delete a tag",
+    "security": [
+     {
+      "bearer": [
+       "tags:write"
+      ]
+     }
+    ],
+    "tags": [
+     "tags"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "tag_id",
+      "description": "Tag id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/tag_id"
+      }
+     }
+    ],
+    "responses": {
+     "204": {
+      "description": "Success response"
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "example": {
+         "code": "not_found",
+         "message": "Tag not found"
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   },
+   "patch": {
+    "operationId": "update",
+    "summary": "Update a tag",
+    "security": [
+     {
+      "bearer": [
+       "tags:write"
+      ]
+     }
+    ],
+    "tags": [
+     "tags"
+    ],
+    "parameters": [
+     {
+      "in": "path",
+      "name": "tag_id",
+      "description": "Tag id",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/tag_id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "name": {
+          "type": "string",
+          "description": "Name of the tag visible in dashboard.",
+          "example": "Payment issues",
+          "minLength": 1,
+          "maxLength": 128
+         },
+         "description": {
+          "type": "string",
+          "description": "Description of the tag visible as tooltip.",
+          "example": "Long description of the tag",
+          "maxLength": 1000
+         },
+         "color": {
+          "type": "string",
+          "description": "Color of the tag",
+          "example": "#a1b2c3",
+          "pattern": "^(|#?[a-fA-F0-9]{6})$"
+         }
+        },
+        "minProperties": 1
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "$ref": "#/components/responses/suc_tag"
+     },
+     "404": {
+      "description": "Resource was not found",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "example": {
+         "code": "not_found",
+         "message": "Tag not found"
+        }
+       }
+      }
+     },
+     "409": {
+      "description": "Tag name conflicts with existing tag name.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Unprocessable Entity. The data was well-formed but invalid.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/error_payload"
+        },
+        "example": {
+         "code": "invalid_arguments",
+         "message": "Invalid request arguments"
+        }
+       }
+      }
+     },
+     "default": {
+      "$ref": "#/components/responses/err_general"
+     }
+    }
+   }
+  }
+ },
+ "components": {
+  "parameters": {},
+  "securitySchemes": {
+   "bearer": {
+    "type": "http",
+    "scheme": "bearer"
+   }
+  },
+  "schemas": {
+   "agent_id": {
+    "title": "Agent Id",
+    "description": "The id of the agent.",
+    "type": "string",
+    "pattern": "^[0-9]+$",
+    "example": "29102"
+   },
+   "account_id": {
+    "title": "Account Id",
+    "description": "The id of the account.",
+    "type": "string",
+    "pattern": "^[0-9]+$",
+    "example": "302621"
+   },
+   "bot_id": {
+    "title": "Bot Id",
+    "description": "The id of the bot. Starting with `bo`.",
+    "oneOf": [
+     {
+      "type": "string",
+      "pattern": "^bo[\\w\\-]{8,14}$",
+      "description": "Id of bot."
+     },
+     {
+      "type": "string",
+      "pattern": "^[\\d]+$",
+      "description": "Id of automatic message."
+     }
+    ]
+   },
+   "contact_id": {
+    "title": "Contact Id",
+    "description": "The id of the contact. Usually starting with `ct`.",
+    "type": "string",
+    "example": "ctSxW9Sxs34x",
+    "pattern": "^ct[\\w\\-]{8,16}$"
+   },
+   "conversation_id": {
+    "title": "Conversation Id",
+    "description": "The id of the conversation. Usually starting with `co`.",
+    "type": "string",
+    "example": "coQ1GGgd2Ysly",
+    "pattern": "^co[\\w\\-]{8,16}(-preview){0,1}$"
+   },
+   "group_id": {
+    "title": "Group Id",
+    "type": "string",
+    "pattern": "^[\\w]{10}$"
+   },
+   "message_id": {
+    "title": "Message Id",
+    "description": "The id of the message. Usually starting with `ms`.",
+    "type": "string",
+    "example": "msvRabStzFw7",
+    "pattern": "^ms[\\w\\-]{8,16}$"
+   },
+   "tag_id": {
+    "title": "Tag Id",
+    "description": "The id of the tag. Usually starting with `tg`.",
+    "type": "string",
+    "example": "tgS1AGgd2Y2ly"
+   },
+   "visitor_id": {
+    "title": "Visitor Id",
+    "description": "The id of the visitor. Must starting with `vi`.",
+    "type": "string",
+    "example": "viMBzQuBqD89",
+    "pattern": "^vi[\\w\\-]{8,16}$"
+   },
+   "query_value": {
+    "title": "Query Value",
+    "description": "The value of query",
+    "oneOf": [
+     {
+      "type": "string"
+     },
+     {
+      "type": "number"
+     },
+     {
+      "type": "boolean"
+     },
+     {
+      "type": "array",
+      "items": {
+       "oneOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "number"
+        },
+        {
+         "type": "boolean"
+        }
+       ]
+      }
+     }
+    ]
+   },
+   "date_time": {
+    "title": "Date Time",
+    "type": "string",
+    "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(.[0-9]*Z?)?$"
+   },
+   "page_url": {
+    "description": "A page url is set when the visitor is online, otherwise, it is set to null.",
+    "type": "string",
+    "nullable": true
+   },
+   "reference": {
+    "title": "Reference",
+    "type": "object",
+    "properties": {
+     "type": {
+      "type": "string"
+     },
+     "id": {
+      "type": "string"
+     },
+     "url": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "type",
+     "id",
+     "url"
+    ]
+   },
+   "reference_list": {
+    "title": "Reference List",
+    "type": "object",
+    "properties": {
+     "type": {
+      "type": "string",
+      "enum": [
+       "list"
+      ]
+     },
+     "data": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/reference"
+      }
+     },
+     "total": {
+      "type": "number"
+     }
+    },
+    "required": [
+     "type",
+     "data",
+     "total"
+    ]
+   },
+   "agent_status": {
+    "title": "Agent Status",
+    "type": "string",
+    "enum": [
+     "online",
+     "offline"
+    ]
+   },
+   "attachment_type": {
+    "title": "Attachment Type",
+    "description": "Value `upload` is only valid for creating attachments during upload flow.",
+    "type": "string",
+    "enum": [
+     "file",
+     "image",
+     "cards",
+     "upload"
+    ]
+   },
+   "attachment_component_type": {
+    "title": "Attachment Component Type",
+    "type": "string",
+    "enum": [
+     "hero",
+     "image"
+    ]
+   },
+   "conversation_status": {
+    "title": "Conversation Status",
+    "type": "string",
+    "enum": [
+     "open",
+     "closed",
+     "pending"
+    ]
+   },
+   "conversation_rating_value": {
+    "title": "Conversation Rating Value",
+    "type": "number",
+    "enum": [
+     1,
+     3,
+     5
+    ],
+    "x-enum-names": [
+     "Negative",
+     "Neutral",
+     "Positive"
+    ]
+   },
+   "message_action_type": {
+    "title": "Message Action Type",
+    "type": "string",
+    "enum": [
+     "text",
+     "open_url"
+    ]
+   },
+   "message_sub_type": {
+    "title": "Message SubType",
+    "type": "string",
+    "enum": [
+     "agent",
+     "contact",
+     "system",
+     "trigger",
+     "bot"
+    ]
+   },
+   "message_type": {
+    "title": "Message Type",
+    "type": "string",
+    "enum": [
+     "message",
+     "note",
+     "event"
+    ]
+   },
+   "visitor_status": {
+    "title": "Visitor Status",
+    "type": "string",
+    "enum": [
+     "active",
+     "idle",
+     "offline",
+     "served",
+     "triggered",
+     "unserved"
+    ]
+   },
+   "agent": {
+    "title": "Agent",
+    "type": "object",
+    "properties": {
+     "id": {
+      "$ref": "#/components/schemas/agent_id"
+     },
+     "email": {
+      "description": "The email address of the agent. Not visible in widget.",
+      "type": "string"
+     },
+     "name": {
+      "description": "The name of the agent. Visible in widget when agent join the chat.",
+      "type": "string"
+     },
+     "avatar": {
+      "description": "Image of the agent. Visible in widget when agent join the chat.",
+      "type": "string"
+     },
+     "description": {
+      "description": "The description of agent role or job position visible after agent join the chat.",
+      "type": "string"
+     },
+     "role": {
+      "description": "The role of agent. Can be <code>agent</code>, <code>admin</code> or <code>owner</code>",
+      "type": "string"
+     },
+     "status": {
+      "$ref": "#/components/schemas/agent_status"
+     },
+     "active": {
+      "description": "The active flag. Not active agent can't send messages",
+      "type": "boolean"
+     }
+    },
+    "required": [
+     "id",
+     "email",
+     "name",
+     "avatar",
+     "description",
+     "role",
+     "status",
+     "active"
+    ]
+   },
+   "channel": {
+    "title": "Channel",
+    "type": "object",
+    "properties": {
+     "type": {
+      "type": "string"
+     },
+     "id": {
+      "type": "string",
+      "nullable": true
+     }
+    },
+    "required": [
+     "type"
+    ]
+   },
+   "properties": {
+    "title": "Properties",
+    "type": "object",
+    "additionalProperties": {
+     "anyOf": [
+      {
+       "type": "string"
+      },
+      {
+       "type": "number"
+      },
+      {
+       "type": "boolean"
+      }
+     ]
+    },
+    "nullable": true
+   },
+   "conversation": {
+    "title": "Conversation",
+    "type": "object",
+    "properties": {
+     "id": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/conversation_id"
+       },
+       {
+        "type": "string"
+       }
+      ]
+     },
+     "ext_id": {
+      "type": "string",
+      "nullable": true
+     },
+     "contact_id": {
+      "$ref": "#/components/schemas/contact_id"
+     },
+     "visitor_id": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/visitor_id"
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "nullable": true
+     },
+     "channel": {
+      "$ref": "#/components/schemas/channel"
+     },
+     "status": {
+      "$ref": "#/components/schemas/conversation_status"
+     },
+     "group_id": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/group_id"
+       }
+      ],
+      "nullable": true
+     },
+     "created_at": {
+      "type": "string",
+      "format": "date-time"
+     },
+     "updated_at": {
+      "type": "string",
+      "format": "date-time"
+     },
+     "finished_at": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+     },
+     "assigned_ids": {
+      "description": "List currently assigned agents",
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/agent_id"
+      }
+     },
+     "agent_ids": {
+      "description": "List of all participating agents",
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/agent_id"
+      }
+     },
+     "rating_value": {
+      "allOf": [
+       {
+        "$ref": "#/components/schemas/conversation_rating_value"
+       }
+      ],
+      "nullable": true
+     },
+     "rating_text": {
+      "type": "string",
+      "nullable": true
+     },
+     "domain": {
+      "type": "string",
+      "nullable": true
+     },
+     "referer": {
+      "type": "string",
+      "nullable": true
+     },
+     "is_offline": {
+      "type": "boolean"
+     },
+     "is_served": {
+      "type": "boolean"
+     },
+     "variables": {
+      "$ref": "#/components/schemas/variables"
+     },
+     "tags": {
+      "$ref": "#/components/schemas/reference_list"
+     },
+     "location": {
+      "$ref": "#/components/schemas/location"
+     },
+     "virtual_agent": {
+      "$ref": "#/components/schemas/virtual_agent"
+     }
+    },
+    "required": [
+     "id",
+     "ext_id",
+     "contact_id",
+     "visitor_id",
+     "channel",
+     "status",
+     "group_id",
+     "created_at",
+     "updated_at",
+     "finished_at",
+     "assigned_ids",
+     "agent_ids",
+     "rating_value",
+     "rating_text",
+     "domain",
+     "referer",
+     "is_offline",
+     "is_served",
+     "variables",
+     "tags",
+     "location"
+    ]
+   },
+   "conversation_statistics": {
+    "title": "Conversation Statistics",
+    "type": "object",
+    "properties": {
+     "time_to_close": {
+      "type": "number",
+      "nullable": true
+     },
+     "time_to_first_reply": {
+      "type": "number",
+      "nullable": true
+     },
+     "median_time_to_reply": {
+      "type": "number",
+      "nullable": true
+     },
+     "total_agent_messages": {
+      "type": "number"
+     },
+     "agents": {
+      "type": "object",
+      "additionalProperties": {
+       "type": "object",
+       "properties": {
+        "time_to_first_reply": {
+         "type": "number",
+         "nullable": true
+        },
+        "median_time_to_reply": {
+         "type": "number",
+         "nullable": true
+        },
+        "total_agent_messages": {
+         "type": "number"
+        }
+       }
+      }
+     }
+    },
+    "required": [
+     "time_to_close",
+     "time_to_first_reply",
+     "median_time_to_reply",
+     "total_agent_messages",
+     "agents"
+    ]
+   },
+   "conversations_collection": {
+    "title": "Conversations Collection",
+    "type": "object",
+    "properties": {
+     "total": {
+      "type": "number"
+     },
+     "after": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "type": "number"
+      }
+     },
+     "items": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/conversation"
+      }
+     }
+    },
+    "required": [
+     "total",
+     "after",
+     "items"
+    ]
+   },
+   "location": {
+    "title": "Location",
+    "type": "object",
+    "properties": {
+     "ip": {
+      "type": "string",
+      "nullable": true
+     },
+     "code": {
+      "type": "string",
+      "nullable": true
+     },
+     "country": {
+      "type": "string",
+      "nullable": true
+     },
+     "city": {
+      "type": "string",
+      "nullable": true
+     }
+    },
+    "required": [
+     "ip",
+     "code",
+     "country",
+     "city"
+    ]
+   },
+   "message": {
+    "type": "object",
+    "title": "Message",
+    "properties": {
+     "id": {
+      "$ref": "#/components/schemas/message_id"
+     },
+     "ext_id": {
+      "type": "string",
+      "nullable": true
+     },
+     "conversation_id": {
+      "$ref": "#/components/schemas/conversation_id"
+     },
+     "visitor_id": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/visitor_id"
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "nullable": true
+     },
+     "agent_id": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/agent_id"
+       }
+      ],
+      "nullable": true
+     },
+     "created_at": {
+      "type": "string",
+      "format": "date-time"
+     },
+     "updated_at": {
+      "type": "string",
+      "format": "date-time"
+     },
+     "channel": {
+      "$ref": "#/components/schemas/channel"
+     },
+     "type": {
+      "$ref": "#/components/schemas/message_type"
+     },
+     "sub_type": {
+      "$ref": "#/components/schemas/message_sub_type"
+     },
+     "content": {
+      "$ref": "#/components/schemas/message_content"
+     },
+     "trigger_id": {
+      "type": "string",
+      "nullable": true
+     },
+     "trigger_name": {
+      "type": "string",
+      "nullable": true
+     },
+     "is_reply": {
+      "type": "boolean"
+     },
+     "is_first_reply": {
+      "type": "boolean"
+     },
+     "is_offline": {
+      "type": "boolean"
+     },
+     "is_offline_reply": {
+      "type": "boolean"
+     },
+     "response_time": {
+      "type": "number",
+      "nullable": true
+     },
+     "delivery_to": {
+      "type": "string",
+      "nullable": true
+     },
+     "delivery_status": {
+      "type": "string",
+      "nullable": true
+     },
+     "delivered_at": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+     },
+     "attachments": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/attachment"
+      }
+     },
+     "action_result": {
+      "$ref": "#/components/schemas/message_action_result"
+     },
+     "page_url": {
+      "$ref": "#/components/schemas/page_url"
+     },
+     "virtual_agent": {
+      "$ref": "#/components/schemas/virtual_agent"
+     }
+    },
+    "required": [
+     "id",
+     "ext_id",
+     "conversation_id",
+     "visitor_id",
+     "agent_id",
+     "created_at",
+     "updated_at",
+     "channel",
+     "type",
+     "sub_type",
+     "content",
+     "trigger_id",
+     "trigger_name",
+     "is_reply",
+     "is_first_reply",
+     "is_offline",
+     "is_offline_reply",
+     "response_time",
+     "delivery_to",
+     "delivery_status",
+     "delivered_at",
+     "attachments",
+     "page_url"
+    ]
+   },
+   "message_action": {
+    "title": "Message Action",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+     "type": {
+      "$ref": "#/components/schemas/message_action_type"
+     },
+     "title": {
+      "description": "The title field includes text to be displayed on the button's face. The value of the title field is of type string, and does not contain markup.",
+      "type": "string"
+     },
+     "text": {
+      "description": "The text field contains text content to be sent to a bot and included in the chat feed when the button is clicked.",
+      "type": "string",
+      "nullable": true
+     },
+     "value": {
+      "description": "The value field contains content specific to action type, eg url.",
+      "type": "string",
+      "nullable": true
+     },
+     "payload": {
+      "description": "The payload field contains programmatic structured data delivered back.",
+      "type": "object",
+      "nullable": true,
+      "additionalProperties": true
+     }
+    },
+    "required": [
+     "type",
+     "title"
+    ]
+   },
+   "message_action_result": {
+    "title": "Message Action Result",
+    "type": "object",
+    "properties": {
+     "payload": {
+      "description": "The payload field contains programmatic structured data delivered back.",
+      "type": "object",
+      "additionalProperties": true
+     }
+    },
+    "required": [
+     "payload"
+    ]
+   },
+   "message_content": {
+    "title": "Message Content",
+    "description": "Message content. Either text or html must be provided, but not both.",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+     "type": {
+      "type": "string"
+     },
+     "text": {
+      "type": "string",
+      "description": "Plain text content. Either text or html must be provided, but not both.",
+      "nullable": true
+     },
+     "html": {
+      "type": "string",
+      "description": "HTML content. Only <a> and <br> tags are allowed. Links must use http, https, or mailto schemes. Either text or html must be provided, but not both.",
+      "nullable": true
+     },
+     "data": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/attachment_file"
+       },
+       {
+        "$ref": "#/components/schemas/attachment_image"
+       },
+       {
+        "type": "object",
+        "additionalProperties": true
+       }
+      ],
+      "nullable": true
+     }
+    },
+    "required": [
+     "type"
+    ]
+   },
+   "messages_collection": {
+    "title": "Messages Collection",
+    "type": "object",
+    "properties": {
+     "total": {
+      "type": "number"
+     },
+     "after": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "type": "number"
+      }
+     },
+     "items": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/message"
+      }
+     }
+    },
+    "required": [
+     "total",
+     "after",
+     "items"
+    ]
+   },
+   "attachment": {
+    "title": "Attachment",
+    "anyOf": [
+     {
+      "$ref": "#/components/schemas/attachment_file"
+     },
+     {
+      "$ref": "#/components/schemas/attachment_image"
+     },
+     {
+      "$ref": "#/components/schemas/attachment_cards"
+     }
+    ],
+    "discriminator": {
+     "propertyName": "type",
+     "mapping": {
+      "file": "#/components/schemas/attachment_file",
+      "image": "#/components/schemas/attachment_image",
+      "cards": "#/components/schemas/attachment_cards"
+     }
+    }
+   },
+   "attachment_base": {
+    "title": "Attachment Base",
+    "x-namespace": "attachment",
+    "type": "object",
+    "properties": {
+     "type": {
+      "$ref": "#/components/schemas/attachment_type"
+     }
+    },
+    "required": [
+     "type"
+    ]
+   },
+   "attachment_file": {
+    "title": "Attachment File",
+    "x-namespace": "attachment",
+    "allOf": [
+     {
+      "$ref": "#/components/schemas/attachment_base"
+     },
+     {
+      "type": "object",
+      "properties": {
+       "url": {
+        "type": "string"
+       },
+       "file_name": {
+        "type": "string"
+       },
+       "file_type": {
+        "type": "string",
+        "description": "Available when image was upload to our servers.",
+        "nullable": true
+       },
+       "size": {
+        "type": "number",
+        "description": "Available when file was upload to our servers.",
+        "nullable": true
+       }
+      },
+      "required": [
+       "url",
+       "file_name",
+       "file_type",
+       "size"
+      ]
+     }
+    ]
+   },
+   "attachment_image": {
+    "title": "Attachment Image",
+    "x-namespace": "attachment",
+    "allOf": [
+     {
+      "$ref": "#/components/schemas/attachment_base"
+     },
+     {
+      "type": "object",
+      "properties": {
+       "url": {
+        "type": "string"
+       },
+       "file_name": {
+        "type": "string"
+       },
+       "file_type": {
+        "type": "string",
+        "description": "Available when image was upload to our servers.",
+        "nullable": true
+       },
+       "size": {
+        "type": "number",
+        "description": "Available when image was upload to our servers.",
+        "nullable": true
+       },
+       "width": {
+        "type": "number",
+        "description": "Available when image was upload to our servers.",
+        "nullable": true
+       },
+       "height": {
+        "type": "number",
+        "description": "Available when image was upload to our servers.",
+        "nullable": true
+       },
+       "thumb_400": {
+        "description": "Available when image was upload to our servers.",
+        "anyOf": [
+         {
+          "$ref": "#/components/schemas/attachment_thumb"
+         }
+        ],
+        "nullable": true
+       }
+      },
+      "required": [
+       "url",
+       "file_name",
+       "file_type",
+       "size",
+       "width",
+       "height",
+       "thumb_400"
+      ]
+     }
+    ]
+   },
+   "attachment_cards": {
+    "title": "Attachment Cards",
+    "x-namespace": "attachment",
+    "allOf": [
+     {
+      "$ref": "#/components/schemas/attachment_base"
+     },
+     {
+      "type": "object",
+      "properties": {
+       "content": {
+        "type": "object",
+        "properties": {
+         "layout": {
+          "type": "string",
+          "enum": [
+           "cards",
+           "carousel"
+          ],
+          "title": "Attachment Cards Layout",
+          "x-namespace": "attachment"
+         },
+         "components": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 10,
+          "items": {
+           "$ref": "#/components/schemas/attachment_component"
+          }
+         }
+        },
+        "required": [
+         "layout",
+         "components"
+        ]
+       }
+      },
+      "required": [
+       "content"
+      ]
+     }
+    ]
+   },
+   "attachment_component": {
+    "title": "Attachment Component",
+    "anyOf": [
+     {
+      "$ref": "#/components/schemas/attachment_component_hero"
+     },
+     {
+      "$ref": "#/components/schemas/attachment_component_image"
+     }
+    ],
+    "discriminator": {
+     "propertyName": "type",
+     "mapping": {
+      "hero": "#/components/schemas/attachment_component_hero",
+      "image": "#/components/schemas/attachment_component_image"
+     }
+    }
+   },
+   "attachment_component_base": {
+    "title": "Attachment Component Base",
+    "x-namespace": "attachment_component",
+    "type": "object",
+    "properties": {
+     "type": {
+      "$ref": "#/components/schemas/attachment_component_type"
+     }
+    },
+    "required": [
+     "type"
+    ]
+   },
+   "attachment_component_hero": {
+    "title": "Attachment Component Hero",
+    "x-namespace": "attachment_component",
+    "allOf": [
+     {
+      "$ref": "#/components/schemas/attachment_component_base"
+     },
+     {
+      "type": "object",
+      "properties": {
+       "title": {
+        "type": "string",
+        "description": "Title of the card."
+       },
+       "subtitle": {
+        "type": "string",
+        "description": "Subtitle to display under the card's title."
+       },
+       "image": {
+        "description": "Specifies the image to display on the card",
+        "allOf": [
+         {
+          "$ref": "#/components/schemas/attachment_component_image"
+         }
+        ]
+       },
+       "actions": {
+        "type": "array",
+        "description": "Array of actions that enable the user to perform one or more actions.",
+        "items": {
+         "$ref": "#/components/schemas/message_action"
+        }
+       }
+      },
+      "required": [
+       "title"
+      ]
+     }
+    ]
+   },
+   "attachment_component_image": {
+    "title": "Attachment Component Image",
+    "x-namespace": "attachment_component",
+    "allOf": [
+     {
+      "$ref": "#/components/schemas/attachment_component_base"
+     },
+     {
+      "type": "object",
+      "properties": {
+       "url": {
+        "type": "string",
+        "description": "URL to the source of the image or the base64 binary of the image (for example, data:image/png;base64,iVBORw0KGgo...)."
+       },
+       "alt": {
+        "type": "string",
+        "description": "Description of the image. You should include the description to support accessibility."
+       },
+       "tap": {
+        "description": "Specifies the action to perform if the user taps or clicks the image.",
+        "allOf": [
+         {
+          "$ref": "#/components/schemas/message_action"
+         }
+        ]
+       }
+      },
+      "required": [
+       "url"
+      ]
+     }
+    ]
+   },
+   "attachment_thumb": {
+    "title": "Attachment Thumb",
+    "type": "object",
+    "properties": {
+     "url": {
+      "type": "string"
+     },
+     "width": {
+      "type": "number"
+     },
+     "height": {
+      "type": "number"
+     }
+    },
+    "required": [
+     "url",
+     "width",
+     "height"
+    ]
+   },
+   "contact": {
+    "title": "Contact",
+    "type": "object",
+    "properties": {
+     "id": {
+      "$ref": "#/components/schemas/contact_id"
+     },
+     "created_at": {
+      "type": "string",
+      "format": "date-time"
+     },
+     "updated_at": {
+      "type": "string",
+      "format": "date-time"
+     },
+     "email": {
+      "type": "string",
+      "nullable": true
+     },
+     "name": {
+      "type": "string",
+      "nullable": true
+     },
+     "phone": {
+      "type": "string",
+      "nullable": true
+     },
+     "properties": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/properties"
+       }
+      ],
+      "nullable": true
+     },
+     "note": {
+      "type": "string",
+      "nullable": true
+     },
+     "banned_at": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true
+     },
+     "banned_by": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/agent_id"
+       }
+      ],
+      "nullable": true
+     },
+     "gdpr_approved": {
+      "type": "boolean"
+     },
+     "tags": {
+      "$ref": "#/components/schemas/reference_list"
+     }
+    },
+    "required": [
+     "id",
+     "created_at",
+     "updated_at",
+     "email",
+     "name",
+     "phone",
+     "properties",
+     "note",
+     "banned_at",
+     "banned_by",
+     "gdpr_approved",
+     "tags"
+    ]
+   },
+   "path": {
+    "title": "Path",
+    "type": "object",
+    "properties": {
+     "url": {
+      "type": "string"
+     },
+     "title": {
+      "type": "string"
+     },
+     "created_at": {
+      "type": "string",
+      "format": "date-time"
+     }
+    },
+    "required": [
+     "url",
+     "title",
+     "created_at"
+    ]
+   },
+   "paths_collection": {
+    "title": "Paths Collection",
+    "type": "object",
+    "properties": {
+     "total": {
+      "type": "number"
+     },
+     "after": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "type": "number"
+      }
+     },
+     "items": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/path"
+      }
+     }
+    },
+    "required": [
+     "total",
+     "after",
+     "items"
+    ]
+   },
+   "statistics": {
+    "title": "Statistics",
+    "type": "object",
+    "additionalProperties": {
+     "type": "object",
+     "properties": {
+      "name": {
+       "type": "string"
+      },
+      "count": {
+       "type": "number"
+      },
+      "value": {
+       "type": "number"
+      },
+      "buckets": {
+       "type": "array",
+       "nullable": true,
+       "items": {
+        "type": "object",
+        "properties": {
+         "key": {
+          "type": "string"
+         },
+         "count": {
+          "type": "number"
+         },
+         "value": {
+          "type": "number"
+         }
+        },
+        "required": [
+         "key",
+         "count",
+         "value"
+        ]
+       }
+      }
+     },
+     "required": [
+      "name",
+      "count",
+      "value",
+      "buckets"
+     ]
+    }
+   },
+   "tag": {
+    "title": "Tag",
+    "type": "object",
+    "properties": {
+     "id": {
+      "$ref": "#/components/schemas/tag_id"
+     },
+     "name": {
+      "type": "string"
+     },
+     "description": {
+      "type": "string"
+     },
+     "color": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "id",
+     "name",
+     "description",
+     "color"
+    ]
+   },
+   "trigger": {
+    "title": "Trigger",
+    "type": "object",
+    "properties": {
+     "type": {
+      "type": "string"
+     },
+     "conditions": {
+      "type": "array",
+      "items": {
+       "$ref": "#/components/schemas/trigger_condition"
+      }
+     }
+    },
+    "required": [
+     "type",
+     "conditions"
+    ]
+   },
+   "trigger_condition": {
+    "title": "Trigger Condition",
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string"
+     },
+     "op": {
+      "type": "string",
+      "nullable": true
+     },
+     "value": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "number"
+       },
+       {
+        "type": "boolean"
+       }
+      ],
+      "nullable": true
+     }
+    },
+    "required": [
+     "name",
+     "op",
+     "value"
+    ]
+   },
+   "typing": {
+    "title": "Typing",
+    "type": "object",
+    "properties": {
+     "active": {
+      "type": "boolean"
+     }
+    },
+    "required": [
+     "active"
+    ]
+   },
+   "variables": {
+    "title": "Variables",
+    "type": "object",
+    "description": "Variables serve as key-value custom data displayed in dashboard.",
+    "additionalProperties": {
+     "oneOf": [
+      {
+       "type": "string",
+       "maxLength": 256
+      },
+      {
+       "type": "boolean"
+      },
+      {
+       "type": "number"
+      }
+     ],
+     "nullable": true
+    },
+    "example": {
+     "foo": "Foo",
+     "bar": 123
+    }
+   },
+   "visitor": {
+    "title": "Visitor",
+    "type": "object",
+    "properties": {
+     "id": {
+      "$ref": "#/components/schemas/visitor_id"
+     },
+     "created_at": {
+      "type": "string",
+      "format": "date-time"
+     },
+     "updated_at": {
+      "type": "string",
+      "format": "date-time"
+     },
+     "is_online": {
+      "type": "boolean"
+     },
+     "status": {
+      "$ref": "#/components/schemas/visitor_status"
+     },
+     "visits": {
+      "type": "number"
+     },
+     "lang": {
+      "type": "string",
+      "nullable": true
+     },
+     "avatar": {
+      "type": "object",
+      "nullable": true
+     },
+     "user_agent": {
+      "type": "string",
+      "nullable": true
+     },
+     "browser": {
+      "type": "string",
+      "nullable": true
+     },
+     "browser_version": {
+      "type": "string",
+      "nullable": true
+     },
+     "platform": {
+      "type": "string",
+      "nullable": true
+     },
+     "device": {
+      "type": "string",
+      "nullable": true,
+      "enum": [
+       "desktop",
+       "mobile"
+      ]
+     },
+     "os": {
+      "type": "string",
+      "nullable": true
+     },
+     "location_country": {
+      "type": "string",
+      "nullable": true
+     },
+     "location_country_code": {
+      "type": "string",
+      "nullable": true
+     },
+     "location_city": {
+      "type": "string",
+      "nullable": true
+     },
+     "referrer": {
+      "type": "string",
+      "nullable": true
+     },
+     "page_url": {
+      "$ref": "#/components/schemas/page_url"
+     },
+     "page_title": {
+      "description": "A page title is set when the visitor is online, otherwise, it is set to null.",
+      "type": "string",
+      "nullable": true
+     },
+     "email": {
+      "type": "string",
+      "nullable": true,
+      "description": "Only available if visitor is online, otherwise undefined"
+     },
+     "name": {
+      "type": "string",
+      "nullable": true,
+      "description": "Only available if visitor is online, otherwise undefined"
+     },
+     "group": {
+      "type": "string",
+      "nullable": true,
+      "description": "Only available if visitor is online, otherwise undefined"
+     },
+     "variables": {
+      "description": "Only available when visitor is online and have set variables",
+      "type": "object",
+      "additionalProperties": true,
+      "nullable": true
+     }
+    },
+    "required": [
+     "id",
+     "created_at",
+     "updated_at",
+     "is_online",
+     "status",
+     "visits",
+     "lang",
+     "avatar",
+     "user_agent",
+     "browser",
+     "browser_version",
+     "platform",
+     "device",
+     "os",
+     "location_country",
+     "location_country_code",
+     "location_city",
+     "referrer",
+     "page_url",
+     "page_title"
+    ]
+   },
+   "visitor_changes": {
+    "title": "Visitor Changes",
+    "type": "object",
+    "properties": {
+     "lang": {
+      "type": "string",
+      "example": "en"
+     },
+     "page_url": {
+      "$ref": "#/components/schemas/page_url"
+     },
+     "page_title": {
+      "type": "string"
+     },
+     "status": {
+      "$ref": "#/components/schemas/visitor_status"
+     }
+    }
+   },
+   "virtual_agent": {
+    "title": "Virtual Agent",
+    "type": "object",
+    "properties": {
+     "name": {
+      "description": "The name of the agent. Visible in widget when agent join the chat.",
+      "type": "string",
+      "nullable": true,
+      "maxLength": 50,
+      "example": "John"
+     },
+     "description": {
+      "description": "The description of agent role or job position visible after agent join the chat.",
+      "type": "string",
+      "nullable": true,
+      "maxLength": 100,
+      "example": "Finance Specialist"
+     },
+     "avatar": {
+      "description": "Image of the agent. Visible in widget when agent join the chat.",
+      "type": "string",
+      "nullable": true,
+      "maxLength": 200,
+      "example": "https://files.smartsuppcdn.com/files/agents/avatars/136-dfIPPz2Oz6.png"
+     }
+    },
+    "required": [
+     "name",
+     "description",
+     "avatar"
+    ]
+   },
+   "error_detail": {
+    "title": "Error Detail",
+    "type": "object",
+    "properties": {
+     "path": {
+      "type": "string"
+     },
+     "code": {
+      "type": "string"
+     },
+     "message": {
+      "type": "string"
+     },
+     "location": {
+      "type": "string"
+     },
+     "data": {
+      "description": "Error specific data. Some errors can have data. See error examples.",
+      "additionalProperties": true
+     }
+    },
+    "required": [
+     "path",
+     "code",
+     "message",
+     "location"
+    ]
+   },
+   "error_payload": {
+    "title": "Error Payload",
+    "type": "object",
+    "properties": {
+     "code": {
+      "type": "string"
+     },
+     "message": {
+      "type": "string"
+     },
+     "errors": {
+      "type": "array",
+      "description": "List of error in case of bad_request errors.",
+      "items": {
+       "$ref": "#/components/schemas/error_detail"
+      }
+     },
+     "data": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Error additional data specific per code"
+     }
+    },
+    "required": [
+     "code",
+     "message"
+    ]
+   },
+   "event_payload": {
+    "title": "Event Payload",
+    "type": "object",
+    "properties": {
+     "type": {
+      "type": "string"
+     },
+     "event": {
+      "type": "string"
+     },
+     "timestamp": {
+      "type": "string",
+      "format": "date-time"
+     },
+     "account_id": {
+      "type": "string"
+     },
+     "app_id": {
+      "type": "string"
+     },
+     "data": {
+      "description": "Event specific data",
+      "type": "object",
+      "additionalProperties": true
+     }
+    },
+    "required": [
+     "type",
+     "event",
+     "timestamp",
+     "account_id",
+     "app_id",
+     "data"
+    ]
+   },
+   "oauth_token": {
+    "title": "OAuth Token",
+    "type": "object",
+    "properties": {
+     "access_token": {
+      "type": "string"
+     },
+     "token_type": {
+      "type": "string"
+     },
+     "app_id": {
+      "type": "string"
+     },
+     "account_id": {
+      "type": "string"
+     },
+     "client_id": {
+      "type": "string"
+     },
+     "permissions": {
+      "type": "string"
+     },
+     "created_at": {
+      "type": "string",
+      "format": "date-time"
+     },
+     "name": {
+      "type": "string"
+     }
+    },
+    "required": [
+     "access_token",
+     "token_type",
+     "app_id",
+     "account_id",
+     "client_id",
+     "permissions",
+     "created_at",
+     "name"
+    ]
+   },
+   "response_ok": {
+    "title": "Response Ok",
+    "type": "object",
+    "properties": {
+     "ok": {
+      "type": "boolean"
+     }
+    },
+    "required": [
+     "ok"
+    ]
+   },
+   "search_request": {
+    "title": "Search Request",
+    "type": "object",
+    "properties": {
+     "size": {
+      "type": "number",
+      "default": 50
+     },
+     "query": {
+      "type": "array",
+      "maxItems": 15,
+      "items": {
+       "type": "object",
+       "properties": {
+        "field": {
+         "type": "string"
+        },
+        "value": {
+         "description": "Can be any value - string, number, boolean, array or object"
+        },
+        "op": {
+         "type": "string",
+         "enum": [
+          "must",
+          "must_not",
+          "or",
+          "and"
+         ]
+        }
+       },
+       "required": [
+        "value"
+       ]
+      }
+     },
+     "sort": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+       "type": "object",
+       "additionalProperties": {
+        "type": "string",
+        "enum": [
+         "asc",
+         "desc"
+        ]
+       }
+      }
+     },
+     "after": {
+      "nullable": true,
+      "anyOf": [
+       {
+        "type": "array",
+        "items": {
+         "type": "number"
+        }
+       }
+      ]
+     },
+     "timezone": {
+      "type": "string"
+     },
+     "text": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 255,
+      "description": "Full-text search. Matches conversations with a message (including internal notes) that contains the phrase, with the last word matched as a prefix, or whose contact name or email contains it. At most 1000 matching messages are searched, so for a frequent phrase some matching conversations may be missing. A `created_at` lower bound in `query` narrows the search to messages sent since then. Combines with `query` (both must match)."
+     }
+    }
+   },
+   "search_response": {
+    "title": "Search Response",
+    "type": "object",
+    "properties": {
+     "total": {
+      "type": "number"
+     },
+     "after": {
+      "type": "array",
+      "nullable": true,
+      "items": {
+       "type": "number"
+      }
+     },
+     "items": {
+      "type": "array",
+      "items": {
+       "type": "object"
+      }
+     }
+    },
+    "required": [
+     "total",
+     "after",
+     "items"
+    ]
+   },
+   "visitor_message_response": {
+    "title": "Visitor Message Response",
+    "type": "object",
+    "properties": {
+     "conversation_id": {
+      "$ref": "#/components/schemas/conversation_id"
+     },
+     "message_id": {
+      "$ref": "#/components/schemas/message_id"
+     }
+    },
+    "required": [
+     "conversation_id",
+     "message_id"
+    ]
+   },
+   "visitor_message_request": {
+    "title": "Visitor Message Request",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+     "content": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+       "type": {
+        "type": "string",
+        "enum": [
+         "text"
+        ]
+       },
+       "text": {
+        "type": "string",
+        "nullable": true
+       },
+       "actions": {
+        "type": "array",
+        "items": {
+         "$ref": "#/components/schemas/message_action"
+        },
+        "maxItems": 15
+       }
+      },
+      "required": [
+       "type",
+       "text"
+      ]
+     },
+     "attachments": {
+      "type": "array",
+      "maxItems": 5,
+      "items": {
+       "type": "object",
+       "properties": {
+        "type": {
+         "type": "string",
+         "enum": [
+          "file",
+          "image"
+         ]
+        },
+        "url": {
+         "type": "string"
+        },
+        "thumb_url": {
+         "type": "string"
+        },
+        "file_name": {
+         "type": "string",
+         "description": "Optional name. If missing then name will be parsed from url."
+        },
+        "file_type": {
+         "type": "string",
+         "description": "Optional name. If missing then name will be parsed from url."
+        }
+       },
+       "required": [
+        "type",
+        "url"
+       ]
+      }
+     },
+     "disable_input": {
+      "type": "boolean",
+      "default": false
+     }
+    }
+   }
+  },
+  "responses": {
+   "suc_contact": {
+    "description": "Success response",
+    "content": {
+     "application/json": {
+      "schema": {
+       "$ref": "#/components/schemas/contact"
+      },
+      "examples": {
+       "contact": {
+        "$ref": "#/components/examples/contact"
+       }
+      }
+     }
+    }
+   },
+   "suc_conversation": {
+    "description": "Success response",
+    "content": {
+     "application/json": {
+      "schema": {
+       "$ref": "#/components/schemas/conversation"
+      },
+      "examples": {
+       "conversation": {
+        "$ref": "#/components/examples/conversation"
+       }
+      }
+     }
+    }
+   },
+   "suc_message": {
+    "description": "Success response",
+    "content": {
+     "application/json": {
+      "schema": {
+       "$ref": "#/components/schemas/message"
+      },
+      "examples": {
+       "message": {
+        "$ref": "#/components/examples/message"
+       }
+      }
+     }
+    }
+   },
+   "suc_ok": {
+    "description": "OK response",
+    "content": {
+     "application/json": {
+      "schema": {
+       "$ref": "#/components/schemas/response_ok"
+      },
+      "example": {
+       "ok": true
+      }
+     }
+    }
+   },
+   "suc_statistics": {
+    "description": "Success response",
+    "content": {
+     "application/json": {
+      "schema": {
+       "$ref": "#/components/schemas/statistics"
+      },
+      "examples": {
+       "statistics": {
+        "$ref": "#/components/examples/statistics"
+       }
+      }
+     }
+    }
+   },
+   "suc_tag": {
+    "description": "Success response",
+    "content": {
+     "application/json": {
+      "schema": {
+       "$ref": "#/components/schemas/tag"
+      },
+      "examples": {
+       "tag": {
+        "$ref": "#/components/examples/tag"
+       }
+      }
+     }
+    }
+   },
+   "suc_trigger": {
+    "description": "Success response",
+    "content": {
+     "application/json": {
+      "schema": {
+       "$ref": "#/components/schemas/trigger"
+      },
+      "examples": {
+       "trigger": {
+        "$ref": "#/components/examples/trigger"
+       }
+      }
+     }
+    }
+   },
+   "suc_visitor": {
+    "description": "Success response",
+    "content": {
+     "application/json": {
+      "schema": {
+       "$ref": "#/components/schemas/visitor"
+      },
+      "examples": {
+       "visitor": {
+        "$ref": "#/components/examples/visitor"
+       }
+      }
+     }
+    }
+   },
+   "suc_visitor_message": {
+    "description": "Success response",
+    "content": {
+     "application/json": {
+      "schema": {
+       "$ref": "#/components/schemas/visitor_message_response"
+      },
+      "example": {
+       "conversation_id": "coLlp3kcf03V",
+       "message_id": "msZoA8kH2gJY"
+      }
+     }
+    }
+   },
+   "err_bad_request": {
+    "description": "Bad request or invalid parameters",
+    "content": {
+     "application/json": {
+      "schema": {
+       "$ref": "#/components/schemas/error_payload"
+      },
+      "example": {
+       "code": "bad_request",
+       "message": "Invalid parameters",
+       "errors": [
+        {
+         "path": "type",
+         "code": "enum",
+         "message": "should be equal to one of the allowed values",
+         "location": "body"
+        },
+        {
+         "path": "content.data",
+         "code": "required",
+         "message": "should have required property 'data'",
+         "location": "body"
+        }
+       ]
+      }
+     }
+    }
+   },
+   "err_general": {
+    "description": "General error response. See documentation for all possible codes and messages.",
+    "content": {
+     "application/json": {
+      "schema": {
+       "$ref": "#/components/schemas/error_payload"
+      },
+      "examples": {
+       "error": {
+        "summary": "General Error",
+        "value": {
+         "code": "<error_code>",
+         "message": "<error_message>"
+        }
+       }
+      }
+     }
+    }
+   },
+   "err_not_found": {
+    "description": "Resource was not found",
+    "content": {
+     "application/json": {
+      "schema": {
+       "$ref": "#/components/schemas/error_payload"
+      },
+      "example": {
+       "code": "not_found",
+       "message": "Resource not found"
+      }
+     }
+    }
+   },
+   "err_unauthorized": {
+    "description": "Unauthorized request",
+    "content": {
+     "application/json": {
+      "schema": {
+       "$ref": "#/components/schemas/error_payload"
+      },
+      "example": {
+       "code": "invalid_code",
+       "message": "Value passed for code was invalid."
+      }
+     }
+    }
+   },
+   "err_unprocessable": {
+    "description": "Unprocessable, invalid parameters",
+    "content": {
+     "application/json": {
+      "schema": {
+       "$ref": "#/components/schemas/error_payload"
+      },
+      "example": {
+       "code": "invalid_arguments",
+       "message": "Invalid request arguments",
+       "errors": [
+        {
+         "path": "type",
+         "code": "enum",
+         "message": "should be equal to one of the allowed values",
+         "location": "body"
+        },
+        {
+         "path": "content.data",
+         "code": "required",
+         "message": "should have required property 'data'",
+         "location": "body"
+        }
+       ]
+      }
+     }
+    }
+   }
+  },
+  "examples": {
+   "agent": {
+    "summary": "Agent Object",
+    "value": {
+     "id": "1662873",
+     "email": "john@doe.com",
+     "name": "John Doe",
+     "avatar": "https://files.smartsuppcdn.com/files/agents/avatars/136-dfIxxz2Oz6.png",
+     "description": "Senior Support",
+     "role": "agent",
+     "status": "online",
+     "active": true
+    }
+   },
+   "agent_list": {
+    "summary": "Agent List",
+    "value": {
+     "agents": [
+      {
+       "id": "1662873",
+       "email": "john@doe.com",
+       "name": "John Doe",
+       "avatar": "https://files.smartsuppcdn.com/files/agents/avatars/136-dfIxxz2Oz6.png",
+       "description": "Senior Support",
+       "role": "agent",
+       "status": "online",
+       "active": true
+      }
+     ]
+    }
+   },
+   "contact": {
+    "summary": "Contact Object",
+    "value": {
+     "id": "ctY4s1Y2eegu",
+     "created_at": "2020-06-09T07:53:24.956Z",
+     "updated_at": "2020-06-09T07:53:24.956Z",
+     "email": "john@doe.com",
+     "name": "John Doe",
+     "phone": "123456",
+     "properties": {
+      "group": "customer",
+      "visit_count": 1234,
+      "boolean": true
+     },
+     "note": null,
+     "banned_at": null,
+     "banned_by": null,
+     "tags": {
+      "type": "list",
+      "data": [],
+      "total": 0
+     },
+     "gdpr_approved": false
+    }
+   },
+   "conversation": {
+    "summary": "Conversation Object",
+    "value": {
+     "id": "coLlp3kcf03V",
+     "ext_id": null,
+     "created_at": "2020-06-09T07:53:18.825Z",
+     "updated_at": "2020-06-09T07:53:25.237Z",
+     "finished_at": null,
+     "channel": {
+      "id": null,
+      "type": "default"
+     },
+     "status": "open",
+     "contact_id": "ctY4s1Y2eegu",
+     "visitor_id": "viDRqx82Fh8h",
+     "assigned_ids": [
+      "9882"
+     ],
+     "agent_ids": [
+      "3412",
+      "9882"
+     ],
+     "group_id": null,
+     "rating_value": 3,
+     "rating_text": null,
+     "domain": "www.smartsupp.com",
+     "referer": null,
+     "is_served": true,
+     "is_offline": false,
+     "variables": {
+      "custom_user_id": "493029"
+     },
+     "tags": {
+      "type": "list",
+      "data": [],
+      "total": 0
+     },
+     "location": {
+      "ip": null,
+      "code": null,
+      "country": null,
+      "city": null
+     }
+    }
+   },
+   "message": {
+    "summary": "Message Object",
+    "value": {
+     "id": "msZoA8kH2gJY",
+     "ext_id": null,
+     "created_at": "2020-06-09T07:56:24.294Z",
+     "updated_at": "2020-06-09T07:56:24.326Z",
+     "type": "message",
+     "sub_type": "contact",
+     "channel": {
+      "id": null,
+      "type": "default"
+     },
+     "conversation_id": "collp3kc_03V",
+     "visitor_id": "viDRqx82Fh8h",
+     "agent_id": null,
+     "content": {
+      "type": "text",
+      "text": "Hello, can you help me",
+      "data": null
+     },
+     "trigger_name": null,
+     "trigger_id": null,
+     "is_reply": true,
+     "is_first_reply": true,
+     "is_offline": false,
+     "is_offline_reply": false,
+     "response_time": 13841,
+     "delivery_to": null,
+     "delivery_status": null,
+     "delivered_at": null,
+     "attachments": [],
+     "page_url": "http://www.smartsupp.loc/widget/d689e14b2cd6d6e2c4365a6d3a456575271d0f5f"
+    }
+   },
+   "message_attachments": {
+    "summary": "Message Object (attachments)",
+    "value": {
+     "id": "mszo--kH2gJY",
+     "ext_id": null,
+     "created_at": "2020-06-09T07:56:24.294Z",
+     "updated_at": "2020-06-09T07:56:24.326Z",
+     "type": "message",
+     "sub_type": "contact",
+     "channel": {
+      "id": null,
+      "type": "default"
+     },
+     "conversation_id": "collp3kc_03V",
+     "visitor_id": "viDRqx82Fh8h",
+     "agent_id": null,
+     "content": {
+      "type": "text",
+      "text": "Hello smartsupp!",
+      "data": null
+     },
+     "trigger_id": null,
+     "is_reply": false,
+     "is_first_reply": false,
+     "response_time": null,
+     "delivery_status": null,
+     "delivered_at": null,
+     "attachments": [
+      {
+       "type": "image",
+       "file_name": "profile-small.png",
+       "file_type": "image/png",
+       "url": "https://files.smartsuppcdn.com/files/accounts/68/uploads/CYLaBbvPcd.png",
+       "expire_at": "2020-09-09T13:36:16.351Z",
+       "size": 11410,
+       "width": 60,
+       "height": 60,
+       "thumb_400": {
+        "width": 60,
+        "height": 60,
+        "url": "https://files.smartsuppcdn.com/files/accounts/68/uploads/CYLaBbvPcd_thumb400.jpg",
+        "expire_at": "2020-12-09T13:36:16.383Z"
+       }
+      },
+      {
+       "type": "file",
+       "file_name": "1496755424_E-ticket_passenger_and_2_more_f4e09fd2fba451f655ad617efe619d45.pdf",
+       "file_type": "application/pdf",
+       "url": "https://files.smartsuppcdn.com/files/accounts/68/uploads/2ukJqaFp6Q.pdf",
+       "expire_at": "2020-09-09T13:49:16.344Z",
+       "size": 689705,
+       "width": null,
+       "height": null,
+       "thumb_400": null
+      }
+     ]
+    }
+   },
+   "message_file": {
+    "summary": "Message Object (file)",
+    "value": {
+     "id": "mszo--kH2gJY",
+     "ext_id": null,
+     "created_at": "2020-06-09T07:56:24.294Z",
+     "updated_at": "2020-06-09T07:56:24.326Z",
+     "type": "message",
+     "sub_type": "contact",
+     "channel": {
+      "id": null,
+      "type": "default"
+     },
+     "conversation_id": "collp3kc_03V",
+     "visitor_id": "viDRqx82Fh8h",
+     "agent_id": null,
+     "content": {
+      "type": "upload",
+      "text": null,
+      "data": {
+       "type": "file",
+       "file_name": "1496755424_E-ticket_passenger_and_2_more_f4e09fd2fba451f655ad617efe619d45.pdf",
+       "file_type": "application/pdf",
+       "url": "https://files.smartsuppcdn.com/files/accounts/68/uploads/2ukJqaFp6Q.pdf",
+       "expire_at": "2020-09-09T13:49:16.344Z",
+       "size": 689705,
+       "width": null,
+       "height": null,
+       "thumb_400": null
+      }
+     },
+     "trigger_id": null,
+     "is_reply": false,
+     "is_first_reply": false,
+     "response_time": null,
+     "delivery_status": null,
+     "delivered_at": null,
+     "attachments": []
+    }
+   },
+   "message_image": {
+    "summary": "Message Object (image)",
+    "value": {
+     "id": "mszo--kH2gJY",
+     "ext_id": null,
+     "created_at": "2020-06-09T07:56:24.294Z",
+     "updated_at": "2020-06-09T07:56:24.326Z",
+     "type": "message",
+     "sub_type": "contact",
+     "channel": {
+      "id": null,
+      "type": "default"
+     },
+     "conversation_id": "collp3kc_03V",
+     "visitor_id": "viDRqx82Fh8h",
+     "agent_id": null,
+     "content": {
+      "type": "upload",
+      "text": null,
+      "data": {
+       "type": "image",
+       "file_name": "profile-small.png",
+       "file_type": "image/png",
+       "url": "https://files.smartsuppcdn.com/files/accounts/68/uploads/CYLaBbvPcd.png",
+       "expire_at": "2020-09-09T13:36:16.351Z",
+       "size": 11410,
+       "width": 60,
+       "height": 60,
+       "thumb_400": {
+        "width": 60,
+        "height": 60,
+        "url": "https://files.smartsuppcdn.com/files/accounts/68/uploads/CYLaBbvPcd_thumb400.jpg",
+        "expire_at": "2020-12-09T13:36:16.383Z"
+       }
+      }
+     },
+     "trigger_id": null,
+     "is_reply": false,
+     "is_first_reply": false,
+     "response_time": null,
+     "delivery_status": null,
+     "delivered_at": null,
+     "attachments": []
+    }
+   },
+   "statistics": {
+    "summary": "Statistics Object",
+    "value": {
+     "my_result_item_name": {
+      "name": "new_conversation",
+      "value": 2,
+      "count": 2,
+      "buckets": [
+       {
+        "key": "THURSDAY__16",
+        "count": 1,
+        "value": 1
+       },
+       {
+        "key": "FRIDAY__17",
+        "count": 1,
+        "value": 1
+       }
+      ]
+     }
+    }
+   },
+   "tag": {
+    "summary": "Tag Object",
+    "value": {
+     "id": "tgY4s1Y2eSgu",
+     "name": "customer_care",
+     "description": "Customer care issue",
+     "color": ""
+    }
+   },
+   "trigger": {
+    "summary": "Trigger Object",
+    "value": {
+     "type": "page_load",
+     "conditions": [
+      {
+       "name": "delay_site",
+       "op": "eq",
+       "value": 60
+      },
+      {
+       "name": "is_visitor_send_message",
+       "op": "eq",
+       "value": false
+      },
+      {
+       "name": "is_visitor_served",
+       "op": "eq",
+       "value": false
+      },
+      {
+       "name": "account_status",
+       "op": "eq",
+       "value": "online"
+      }
+     ]
+    }
+   },
+   "visitor": {
+    "summary": "Visitor Object",
+    "value": {
+     "id": "viC4NXJqHHMO",
+     "created_at": "2020-07-02T08:09:10.625Z",
+     "updated_at": "2020-07-02T08:09:50.005Z",
+     "lang": "en",
+     "avatar": {
+      "color": {
+       "text": "3aaa9f",
+       "bg": "c2f2ec"
+      },
+      "initials": "L"
+     },
+     "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36",
+     "browser": "Chrome",
+     "browser_version": "46.0.2490.86",
+     "platform": "Apple Mac",
+     "device": "desktop",
+     "os": "OS X El Capitan",
+     "location_country": "Czech Republic",
+     "location_country_code": "CZ",
+     "location_city": "Brno",
+     "page_url": "http://www.smartsupp.loc/widget/d689e14b2cd6d6e2c4365a6d3a456575271d0f5f",
+     "page_title": "Smartsupp Chat",
+     "referrer": "https://www.app.smartsupp.loc/app/dashboard",
+     "visits": 1,
+     "status": "active",
+     "is_online": true
+    }
+   },
+   "visitor_conversation_create_request": {
+    "summary": "Create Conversation",
+    "value": {
+     "message": {
+      "content": {
+       "type": "text",
+       "text": "Pick a pet",
+       "actions": [
+        {
+         "type": "text",
+         "title": "Dog",
+         "payload": {
+          "pet_id": "dog"
+         }
+        },
+        {
+         "type": "text",
+         "title": "Cat",
+         "payload": {
+          "pet_id": "cat"
+         }
+        }
+       ]
+      }
+     }
+    }
+   },
+   "visitor_message_image_request": {
+    "summary": "Image Message",
+    "value": {
+     "content": {
+      "type": "text",
+      "text": "Sending you image"
+     },
+     "attachments": [
+      {
+       "type": "image",
+       "url": "https://www.smartsuppcdn.com/assets/thumb.png"
+      }
+     ]
+    }
+   },
+   "visitor_message_text_request": {
+    "summary": "Text Message",
+    "value": {
+     "content": {
+      "type": "text",
+      "text": "Pick a pet",
+      "actions": [
+       {
+        "type": "text",
+        "title": "Dog",
+        "payload": {
+         "pet_id": "dog"
+        }
+       },
+       {
+        "type": "text",
+        "title": "Cat",
+        "payload": {
+         "pet_id": "cat"
+        }
+       }
+      ]
+     }
+    }
+   }
+  }
+ }
+}

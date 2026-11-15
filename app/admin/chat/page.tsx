@@ -3,6 +3,8 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { currentAdmin } from "@/lib/auth";
 import { Inbox } from "./inbox";
+import { SMARTSUPP_CHAT_KEY } from "@/lib/smartsupp/const";
+import { SmartsuppConversations } from "../smartsupp-panels";
 
 async function ChatGate() {
   const me = await currentAdmin();
@@ -12,7 +14,15 @@ async function ChatGate() {
     <main className="px-4 sm:px-6 py-10">
       <Link href="/admin" className="text-sm text-muted-foreground hover:text-foreground">← Dashboard</Link>
       <h1 className="mt-2 text-3xl font-bold">Support inbox</h1>
-      <Inbox />
+      {SMARTSUPP_CHAT_KEY ? (
+        <div className="mt-6 max-w-2xl">
+          <Suspense fallback={<div className="h-40 animate-pulse rounded-2xl bg-muted" />}>
+            <SmartsuppConversations size={25} heading={false} />
+          </Suspense>
+        </div>
+      ) : (
+        <Inbox />
+      )}
     </main>
   );
 }

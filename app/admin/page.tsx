@@ -8,6 +8,8 @@ import { db, type EventRow, formatPrice } from "@/lib/db";
 import { logout } from "./actions";
 import { EventForm } from "./event-form";
 import { ConfirmDelete } from "./confirm-delete";
+import { SMARTSUPP_CHAT_KEY } from "@/lib/smartsupp/const";
+import { SmartsuppConversations, SmartsuppStats } from "./smartsupp-panels";
 
 const dayFmt = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit", timeZone: "UTC" });
 const weekday = new Intl.DateTimeFormat("en-US", { weekday: "short", timeZone: "UTC" });
@@ -148,12 +150,25 @@ async function Dashboard() {
       <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
         <Stat icon={CalendarDays} label="Upcoming" value={upcoming.length} hint={`${events.length} events in total`} />
         <Stat icon={Eye} label="Views, 7 days" value={totalViews.toLocaleString("en-US")} hint="Event page visits" />
+        {SMARTSUPP_CHAT_KEY ? (
+          <Suspense fallback={<div className="col-span-2 h-28 animate-pulse rounded-2xl bg-muted" />}>
+            <SmartsuppStats />
+          </Suspense>
+        ) : (
+          <>
         <Stat icon={MessageCircle} label="Waiting" value={waiting} hint={`${chat[0]?.open ?? 0} open chats`} href="/admin/chat" tone={waiting ? "alert" : undefined} />
         <Stat icon={Users} label="Online now" value={online[0]?.n ?? 0} hint="Visitors on the site" href="/admin/chat" />
+          </>
+        )}
       </div>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[360px_1fr]">
         <div className="space-y-6">
+          {SMARTSUPP_CHAT_KEY ? (
+            <Suspense fallback={<div className="h-40 animate-pulse rounded-2xl bg-muted" />}>
+              <SmartsuppConversations />
+            </Suspense>
+          ) : (
           <section className="rounded-2xl border bg-card p-4">
             <div className="flex items-center justify-between">
               <h2 className="font-semibold">Chats</h2>
@@ -185,6 +200,7 @@ async function Dashboard() {
               </ul>
             )}
           </section>
+          )}
 
           <section className="rounded-2xl border bg-card p-4">
             <h2 className="font-semibold">Views this week</h2>

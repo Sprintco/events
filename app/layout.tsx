@@ -7,6 +7,8 @@ import { AppShell } from "@/components/app-shell";
 import { AdminSide, AdminTop } from "@/components/admin-slots";
 import { SiteFooter } from "@/components/site-footer";
 import { ChatWidget } from "@/components/chat-widget";
+import { SmartsuppWidget } from "@/components/smartsupp-widget";
+import { SMARTSUPP_CHAT_KEY } from "@/lib/smartsupp/const";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const playfair = Playfair_Display({ variable: "--font-playfair", subsets: ["latin"] });
@@ -55,7 +57,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </AppShell>
         <Suspense fallback={null}>
-          <ChatWidget />
+          {/* With a Smartsupp key set, Smartsupp replaces the built-in chat. */}
+          {SMARTSUPP_CHAT_KEY ? <SmartsuppWidget chatKey={SMARTSUPP_CHAT_KEY} /> : <ChatWidget />}
         </Suspense>
       </body>
     </html>
