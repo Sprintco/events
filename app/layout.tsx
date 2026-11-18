@@ -9,6 +9,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { ChatWidget } from "@/components/chat-widget";
 import { SmartsuppWidget } from "@/components/smartsupp-widget";
 import { SMARTSUPP_CHAT_KEY } from "@/lib/smartsupp/const";
+import { SITE_NAME, SITE_URL, pageMeta } from "@/lib/seo";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const playfair = Playfair_Display({ variable: "--font-playfair", subsets: ["latin"] });
@@ -18,8 +19,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AdultFriendFinder",
-  description: "Discover and join exclusive events.",
+  metadataBase: new URL(SITE_URL),
+  title: { default: SITE_NAME, template: `%s | ${SITE_NAME}` },
+  applicationName: SITE_NAME,
+  ...pageMeta({ path: "/" }),
+  alternates: undefined, // canonical URLs are set per page, never inherited
 };
 
 // Applies the saved theme before first paint so there's no flash.

@@ -6,6 +6,7 @@ import { EventCard } from "@/components/event-card";
 import { EventGridSkeleton } from "@/components/event-skeleton";
 import { ReserveButton } from "@/components/reserve-button";
 import { SectionHead } from "@/components/page-hero";
+import { pageMeta } from "@/lib/seo";
 
 const empty = (
   <p className="text-muted-foreground">No events yet. Check back soon.</p>
@@ -115,6 +116,8 @@ const PROGRAMMING = [
   ["10 PM", "DJ takes over"],
   ["Until close", "Late-night menu"],
 ];
+
+export const metadata = pageMeta({ path: "/" });
 
 export default function Home() {
   return (

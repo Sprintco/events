@@ -6,6 +6,22 @@ import { CalendarDays, MapPin, Lock, ArrowLeft } from "lucide-react";
 import { db, type EventRow, formatDate, formatPrice } from "@/lib/db";
 import { ViewPing } from "@/components/view-ping";
 import { ReserveButton } from "@/components/reserve-button";
+import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
+
+export async function generateMetadata({ params }: PageProps<"/events/[slug]">): Promise<Metadata> {
+  const { slug } = await params;
+  const sql = await db();
+  const [e] = await sql<EventRow[]>`select * from events where slug = ${slug}`;
+  if (!e) return { title: "Event not found", robots: { index: false } };
+  const when = formatDate(e.starts_at);
+  const lead = [e.is_private ? "Private event" : "Public event", when, e.location].filter(Boolean).join(" · ");
+  return pageMeta({
+    title: e.title,
+    description: e.description ? `${lead}. ${e.description}` : `${lead}. ${formatPrice(e.price_usd)}. Reserve through our support team.`,
+    path: `/events/${e.slug}`,
+  });
+}
 
 async function EventDetail({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;

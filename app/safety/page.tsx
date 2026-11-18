@@ -1,7 +1,8 @@
 import { HubPage } from "@/components/hub-page";
 import { HUBS } from "@/lib/hubs";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata = { title: "Safety - AdultFriendFinder" };
+export const metadata = pageMeta({ title: "Safety", description: HUBS.safety.intro, path: "/safety" });
 
 export default function Page() {
   return <HubPage hub={HUBS.safety} />;

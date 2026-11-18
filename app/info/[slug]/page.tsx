@@ -1,10 +1,19 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { INFO_PAGES } from "@/lib/info-pages";
+import { pageMeta } from "@/lib/seo";
 
 export function generateStaticParams() {
   return Object.keys(INFO_PAGES).map((slug) => ({ slug }));
+}
+
+export async function generateMetadata({ params }: PageProps<"/info/[slug]">): Promise<Metadata> {
+  const { slug } = await params;
+  const page = INFO_PAGES[slug];
+  if (!page) return { title: "Page not found", robots: { index: false } };
+  return pageMeta({ title: page.title, description: page.body, path: `/info/${slug}` });
 }
 
 async function Content({ params }: { params: Promise<{ slug: string }> }) {

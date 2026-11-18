@@ -2,8 +2,9 @@ import { PageHero } from "@/components/page-hero";
 import { MenuTabs } from "@/components/menu-tabs";
 import { ReserveButton } from "@/components/reserve-button";
 import { DINNER, DRINKS } from "@/lib/menu";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata = { title: "Menu - AdultFriendFinder" };
+export const metadata = pageMeta({ title: "Menu", description: "Browse the lounge menu: starters, entrées, sides and drinks.", path: "/menu" });
 
 export default function MenuPage() {
   return (

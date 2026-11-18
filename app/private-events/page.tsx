@@ -15,8 +15,9 @@ import { EventCard } from "@/components/event-card";
 import { EventGridSkeleton } from "@/components/event-skeleton";
 import { PageHero, SectionHead } from "@/components/page-hero";
 import { ReserveButton } from "@/components/reserve-button";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata = { title: "Private events - AdultFriendFinder" };
+export const metadata = pageMeta({ title: "Private events", description: "Invitation-only parties and private lounge nights. Reserve a table or a spot for your group.", path: "/private-events" });
 
 const SETTINGS = [
   {

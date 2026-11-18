@@ -5,8 +5,9 @@ import { PageHero } from "@/components/page-hero";
 import { ReserveButton } from "@/components/reserve-button";
 import { EventCard } from "@/components/event-card";
 import { EventGridSkeleton } from "@/components/event-skeleton";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata = { title: "Events - AdultFriendFinder" };
+export const metadata = pageMeta({ title: "Events", description: "Browse upcoming public and private events. Filter by free, trending, this week or newest.", path: "/events" });
 
 const FILTERS: Record<string, { eyebrow: string; title: string; sub: string }> = {
   all: { eyebrow: "What's on", title: "Events", sub: "Pick an event to see the details and reserve." },

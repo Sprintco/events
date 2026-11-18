@@ -3,8 +3,9 @@ import Link from "next/link";
 import { db, formatPrice, type EventRow } from "@/lib/db";
 import { PageHero } from "@/components/page-hero";
 import { ReserveButton } from "@/components/reserve-button";
+import { pageMeta } from "@/lib/seo";
 
-export const metadata = { title: "Pricing - AdultFriendFinder" };
+export const metadata = pageMeta({ title: "Pricing", description: "See what each event costs in USD and how reservations and payment work.", path: "/pricing" });
 
 const dateFmt = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
 
